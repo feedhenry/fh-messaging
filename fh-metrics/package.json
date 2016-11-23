@@ -4,10 +4,12 @@
   "version": "3.0.3-BUILD-NUMBER",
   "repository": {
     "type": "git",
-    "url": "/git/fh-messaging.git"
+    "url": "git://github.com/feedhenry/fh-messaging.git"
   },
-  "author": "Martin Murphy",
-  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/feedhenry/fh-messaging/issues"
+  },
+  "author": "Feedhenry",
   "main": "bin/fhmetsrv.js",
   "directories": {
     "lib": "bin"
@@ -16,9 +18,6 @@
     "test": "grunt eslint fh:unit",
     "postinstall": "scripts/postinstall.sh",
     "start": "node bin/fhmetsrv.js config/conf.json --master-only"
-  },
-  "engines": {
-    "node": "4.4"
   },
   "bin": {
     "fh-metrics": "./bin/fhmetsrv.js"
@@ -54,5 +53,10 @@
     "whiskey": "0.8.4"
   },
   "man": "./man/fh-metrics.1",
-  "preferGlobal": "true"
+  "preferGlobal": "true",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": "4.4"
+  }
 }
+
