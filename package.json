@@ -9,6 +9,14 @@
   "scripts": {
     "test": "make test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feedhenry/fh-messaging.git"
+  },
+  "bugs": {
+    "url": "https://github.com/feedhenry/fh-messaging/issues"
+  },
+  "author": "Feedhenry",
   "dependencies": {
     "moment": "^2.10.6"
   },
@@ -21,13 +29,8 @@
     "moment": "*"
   },
   "engines": {
-    "node": ">=0.6"
+    "node": "4.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/fheng/fh-messaging.git"
-  },
-  "author": "FeedHenry",
   "readmeFilename": "README.md",
   "gitHead": "6fe441623206d09b706b1be3f167d3515b944bdb",
   "license": "Apache-2.0"

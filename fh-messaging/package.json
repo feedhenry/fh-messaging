@@ -4,10 +4,12 @@
   "version": "3.0.3-BUILD-NUMBER",
   "repository": {
     "type": "git",
-    "url": "dberesford@amz1svn1.feedhenry.com:/var/git/fh-messaging.git"
+    "url": "git://github.com/feedhenry/fh-messaging.git"
   },
-  "author": "Damian Beresford",
-  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/feedhenry/fh-messaging/issues"
+  },
+  "author": "Feedhenry",
   "main": "bin/fhmsgsrv.js",
   "directories": {
     "lib": "bin"
@@ -16,9 +18,6 @@
     "test": "grunt eslint fh:unit",
     "postinstall": "scripts/postinstall.sh",
     "start": "node bin/fhmsgsrv.js config/conf.json --master-only"
-  },
-  "engines": {
-    "node": "4.4"
   },
   "bin": {
     "fh-messaging": "./bin/fhmsgsrv.js",
@@ -67,5 +66,9 @@
     "whiskey": "^0.8.4"
   },
   "man": "./man/fh-messaging.1",
-  "preferGlobal": "true"
+  "preferGlobal": "true",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": "4.4"
+  }
 }
