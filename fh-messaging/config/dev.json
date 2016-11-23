@@ -1,0 +1,160 @@
+{
+
+  "agenda": {
+    "enabled": true,
+    "jobs": {
+      "metrics_rollup_job": {
+        "schedule": "10 0 * * *",
+        "enabled":true,
+        "daysToKeep": 31,
+        "options":{
+          "rollupFor":{
+            "daysAgo":1
+          },
+          "doImport":false
+        }
+      }
+    }
+  },
+  "configDir":"/etc/feedhenry/fh-messaging",
+  "messaging": {
+    "msgAPIKey": "testkey",
+    "ignoreAPIKey": true,
+    "appkey_validate_path": "/box/srv/1.1/ide/fh-messaging/api/validate",
+    "clusters": [
+        {
+          "clusterId": "development",
+          "host": "https://testing.feedhenry.me"
+        },
+        {
+          "clusterId": "fdc1",
+          "host": "https://apps.feedhenry.com"
+        }
+    ],
+    "port": 8803,
+    "maxRequestSize": 1000000,
+    "logger": {
+      "name": "messaging",
+      "streams": [{
+        "type": "stream",
+        "src": true,
+        "level": "trace",
+        "stream": "process.stdout"
+      }]
+    },
+   "whitelist": {
+      "userlogin": true,
+      "useractivate": true,
+      "appbuild": true,
+      "appcreate": true,
+      "apicalled": true,
+      "fhact": true,
+      "fhweb": true,
+      "appinit": true
+   }
+  },
+  "database": {
+    "enabled": true,
+    "name": "fh-messaging",
+    "host": "127.0.0.1",
+    "port": 27017,
+    "options": {
+      "maxPoolSize": 50
+    },
+    "auth": {
+      "user": "",
+      "pass": "",
+      "source": "fh-messaging"
+    }
+  },
+  "retryConfig": {
+    "interval": 1000,
+    "limit": 10
+  },
+  "ipFilter": {
+    "excludes": [
+      "10.0.0.0/8",
+      "172.16.0.0/12",
+      "192.168.0.0/16"
+    ]
+  },
+  "ssl": {
+    "use_ssl": "false",
+    "key": "/etc/ssl/certs/feedhenry.net-private.key",
+    "cert": "/etc/ssl/certs/feedhenry.net-wildcard.pem",
+    "port": 8803
+  },
+  "metrics": {
+    "database": {
+      "name": "fh-messaging",
+      "host": "127.0.0.1",
+      "port": 27017
+    },
+    "metricsDir":  "/var/log/feedhenry/fh-messaging/metrics",
+    "dirPerms":  "0760",
+    "filePerms":  "0660",
+    "whitelist": {
+      "genlogfiles": {
+        "appinit": {
+          "$or": [ {"domain": { "$in": ["vmware", "pwc", "o2apps"]}},
+                   {"appid": { "$in": [ "Vk0WnFHtelrZME22dlmPp8lw", "chwRLTQJqfJ3RG8JsFIDO8gk" ]}}
+          ]
+        }
+      }
+    },
+    "idFieldName": {
+      "default": "_id.appid",
+      "appownernumcreates": "_id.domain",
+      "appownernumcreatesgeo": "_id.domain",
+      "usernumlogin": "_id.domain",
+      "usernumlogingeo": "_id.domain",
+      "usercreate": "_id.domain",
+      "usercreategeo": "_id.domain",
+      "userlogin": "_id.domain",
+      "userlogingeo": "_id.domain",
+      "appcreate": "_id.domain",
+      "appcreategeo": "_id.domain",
+      "appbuild": "_id.domain",
+      "appbuildgeo": "_id.domain",
+      "credentialsuploaded": "_id.domain",
+      "credentialsuploadedgeo": "_id.domain"
+    },
+    "topics": {
+      "appinit": {
+        "groupField": "appid"
+      },
+      "appcreate": {
+        "groupField": "guid"
+      },
+      "appexport": {
+        "groupField": "guid"
+      },
+      "appdelete": {
+        "groupField": "guid"
+      },
+      "appbuild": {
+        "groupField": "guid"
+      },
+      "fhact": {
+        "groupField": "guid"
+      },
+      "fhweb": {
+        "groupField": "guid"
+      }
+    }
+  },
+  "filters": {
+    "AppFields": {},
+    "MD5": {},
+    "Geoip": {
+      "fields": ["ipAddress", "ip"]
+    },
+    "Destinations": {
+      "validDestinations": ["android", "embed", "iphone", "mobile", "studio", "web", "ipad", "other", "ios", "blackberry", "windowsphone7", "wp7", "nokiawrt", "fhc"],
+      "categoryForOthers": "other"
+    }
+  },
+  "geoip": {
+    "dataFile": "./vendor/GeoIP.dat"
+  }
+}

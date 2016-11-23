@@ -1,0 +1,340 @@
+{
+  "ppa4-mbaas-1":
+  {
+    "domaininstallsgeo": [],
+    "domainrequestsdest": [
+      {
+        "_id": {
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "other": 23,
+          "total": 23
+        }
+      }
+    ],
+    "domainstartupsdest": [],
+    "domainrequestsgeo": [
+      {
+        "_id": {
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "Ireland": 23,
+          "total": 23
+        }
+      }
+    ],
+    "domainstartupsgeo": [],
+    "domaintransactionsdest": [
+      {
+        "_id": {
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "other": 2,
+          "total": 2
+        }
+      }
+    ],
+    "domaintransactionsgeo": [
+      {
+        "_id": {
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "Ireland": 2,
+          "total": 2
+        }
+      }
+    ],
+    "domaininstallsdest": [],
+    "appinstallsgeo": [],
+    "apprequestsdest": [
+      {
+        "_id": {
+          "appid": "kjwzwi4kj3nxs7e6kberfhkl",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "other": 13,
+          "total": 13
+        }
+      },
+      {
+        "_id": {
+          "appid": "ssy3cfbqegohaxlndzscdna3",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "other": 10,
+          "total": 10
+        }
+      }
+    ],
+    "appstartupsdest": [],
+    "apprequestsgeo": [
+      {
+        "_id": {
+          "appid": "kjwzwi4kj3nxs7e6kberfhkl",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "Ireland": 13,
+          "total": 13
+        }
+      },
+      {
+        "_id": {
+          "appid": "ssy3cfbqegohaxlndzscdna3",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "Ireland": 10,
+          "total": 10
+        }
+      }
+    ],
+    "appstartupsgeo": [],
+    "apptransactionsdest": [
+      {
+        "_id": {
+          "appid": "kjwzwi4kj3nxs7e6kberfhkl",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "other": 1
+        }
+      },
+      {
+        "_id": {
+          "appid": "ssy3cfbqegohaxlndzscdna3",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "other": 1
+        }
+      }
+    ],
+    "apptransactionsgeo": [
+      {
+        "_id": {
+          "appid": "kjwzwi4kj3nxs7e6kberfhkl",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "Ireland": 1
+        }
+      },
+      {
+        "_id": {
+          "appid": "ssy3cfbqegohaxlndzscdna3",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-1"
+        },
+        "value": {
+          "Ireland": 1
+        }
+      }
+    ],
+    "appinstallsdest": []
+  },
+  "ppa4-mbaas-2":{
+    "domaininstallsgeo": [],
+    "domainrequestsdest": [
+      {
+        "_id": {
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "other": 23,
+          "total": 23
+        }
+      }
+    ],
+    "domainstartupsdest": [],
+    "domainrequestsgeo": [
+      {
+        "_id": {
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "Ireland": 23,
+          "total": 23
+        }
+      }
+    ],
+    "domainstartupsgeo": [],
+    "domaintransactionsdest": [
+      {
+        "_id": {
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "other": 2,
+          "total": 2
+        }
+      }
+    ],
+    "domaintransactionsgeo": [
+      {
+        "_id": {
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "Ireland": 2,
+          "total": 2
+        }
+      }
+    ],
+    "domaininstallsdest": [],
+    "appinstallsgeo": [],
+    "apprequestsdest": [
+      {
+        "_id": {
+          "appid": "kjwzwi4kj3nxs7e6kberfhkl",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "other": 13,
+          "total": 13
+        }
+      },
+      {
+        "_id": {
+          "appid": "ssy3cfbqegohaxlndzscdna3",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "other": 10,
+          "total": 10
+        }
+      }
+    ],
+    "appstartupsdest": [],
+    "apprequestsgeo": [
+      {
+        "_id": {
+          "appid": "kjwzwi4kj3nxs7e6kberfhkl",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "Ireland": 13,
+          "total": 13
+        }
+      },
+      {
+        "_id": {
+          "appid": "kjwzwi4kb3nxs7e6kberfhsl",
+          "domain": "testing2",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "Ireland": 13,
+          "total": 13
+        }
+      },
+      {
+        "_id": {
+          "appid": "ssy3cfbqegohaxlndzscdna3",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "Ireland": 10,
+          "total": 10
+        }
+      }
+    ],
+    "appstartupsgeo": [],
+    "apptransactionsdest": [
+      {
+        "_id": {
+          "appid": "kjwzwi4kj3nxs7e6kberfhkl",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "other": 1
+        }
+      },
+      {
+        "_id": {
+          "appid": "ssy3cfbqegohaxlndzscdna3",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "other": 1
+        }
+      }
+    ],
+    "apptransactionsgeo": [
+      {
+        "_id": {
+          "appid": "kjwzwi4kj3nxs7e6kberfhkl",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "Ireland": 1
+        }
+      },
+      {
+        "_id": {
+          "appid": "ssy3cfbqegohaxlndzscdna3",
+          "domain": "testing",
+          "ts": 1447372800000,
+          "mbaas": "ppa4-mbaas-2"
+        },
+        "value": {
+          "Ireland": 1
+        }
+      }
+    ],
+    "appinstallsdest": []
+  }
+
+}

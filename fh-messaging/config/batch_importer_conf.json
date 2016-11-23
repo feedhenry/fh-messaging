@@ -1,0 +1,9 @@
+{
+  "batchImporter": {
+  	"logLevel": 2,
+    "logMessageApiPrefix": "https://localhost:443/msg/",
+    "numConcurrentWorkers": 10,
+    "logMessageBatchSize": 50,
+    "backupFileLocation": "/mnt/is1/metrics/metrics_raw"
+  }
+}

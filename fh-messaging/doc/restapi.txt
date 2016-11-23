@@ -1,0 +1,72 @@
+
+Message Logging REST API
+========================
+
+Message logging: all messages pass through '/msg' url, i.e. http://messaging.feedhenry.com/msg/*.
+
+# Listing topics
+*GET REQUEST*: messaging.feedhenry.com/msg
+e.g. curl http://localhost:8888/msg
+returns: ['topic1', 'topic2', 'etc']
+
+Returns a list of all the topics in the database.
+
+Note: if a topic doesn't exist when a message is being logged, it will be created. You do not have to explicitly create topics. This is in keeping with the way other message servers behave.
+
+# Adding Messages
+POST REQUEST: messaging.feedhenry.com/msg/<topic> <message>
+e.g. the following adds a message to the 'log' topic:
+    curl -d '{"foo":"bar"}' -H "Content-Type: application/json" http://localhost:8888/msg/log
+
+or pass an array of messages:
+curl -d '[{"foo":2}, {"bar":1}]' -H "Content-Type: application/json" http://localhost:8888/msg/log
+
+Returns a javascript object with 2 array fields, 'existingMessages' and 'newMessages' to indicate which messages were newly logged and which already exist.
+{newMessages: [{"id":"929b944dd60c025400000000"}, {"id":"563g634578jjy752g53ffahh"}]}
+
+## MD5
+Every message logged gets an 'MD5' field, which contains a MD5 hash of the message. This is effectively a unique Id, as every message from FeedHenry should have a timestamp. Note the MD5 cannot be used as the primary key in mongo, but it is a unique indexed field..    
+
+# Getting Messages
+
+*GET REQUEST*: messaging.feedhenry.com/msg/<topic>
+Currently returns all messages for a topic. TODO - change to a sensible default.
+curl http://localhost:8888/msg/log
+
+*GET REQUEST*: messaging.feedhenry.com/msg/<topic>?<query parameters>
+e.g. /msg/log?x=y&a=b
+
+e.g. curl  http://localhost:8888/msg/log?a=A&b=B
+
+The query parameters get converted to a json object that gets passed on verbatim to the mongo find selector. 
+
+Note: a quick way of getting the url encoding of the parameters (to pass to curl) is (from the command line):
+node -e "escape('hello \"there\"')"
+gives: hello%20%22there%22
+
+We will also provide a POST based query so you don't need to url encode the parameters, and also to pass more mongo specific search criteria. This is a big TODO.
+
+## Get a specific Message
+*GET REQUEST*: messaging.feedhenry.com/msg/<topic>/<id>
+Returns a message for the passed id (i.e. the 'MD5' id), e.g.
+    curl http://localhost:8888/msg/log/a898944d1c9a076700000000
+returns:
+    {"a":"A","MD5":"a898944d1c9a076700000000", "_id":"123456789012"}
+
+Note we currently return all the message in the database (including database fields that would of been added to the original message). This can be changed if needs be...
+
+# Checking Messages Exist
+
+To check a single message:
+
+*GET REQUEST* messaging.feedhenry.com/msg/<topic>/<id1>;<id2>?_method=head
+
+Note that Connect doesn't support HEAD explicitly (it converts it to GET under the hood), so we need the '_method=head' in the query string. This 'tunneling' approach is recommended in O'Reilly RESTful Web Services book.
+
+    curl -I http://localhost:8888/msg/log/a898944d1c9a076700000000?_method=head
+
+To check multiple messages, seperate the ids with a ';', e.g.
+
+    curl -I http://localhost:8888/msg/log/a898944d1c9a076700000000;a56743derffgtth543234552?_method=head
+
+

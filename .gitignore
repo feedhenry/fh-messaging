@@ -1,0 +1,17 @@
+conf-docker.json
+lib-cov/
+dist/
+output/
+man/
+test/log/
+*~
+.project
+.settings/
+.idea/
+node_modules/
+.DS_Store
+._.DS_Store
+*.log
+plato/
+coverage/
+*.swp

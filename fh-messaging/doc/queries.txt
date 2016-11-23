@@ -1,0 +1,60 @@
+Sample Mongo Queries
+====================
+
+Note: surround all queries with:
+
+    print (tojson(<query>);
+
+to run them from a file. You can then execute the query in the file with:
+
+    mongo fh-messaging <file.js>
+
+More info on Mongo Queries:
+
+http://www.mongodb.org/display/DOCS/Advanced+Queries
+http://api.mongodb.org/wiki/current/Aggregation.html#Aggregation-Examples
+    
+## Count all the appinit messages that apply to the 'apps' domain:
+    db.appinit.group({
+      cond: {"domain": "apps"},
+      key: {domain:true},
+      initial: {num: 0},
+      reduce: function(doc, out) {
+        out.num++;
+      },
+      finalize: function(out) {
+        out.num;
+      }
+    })
+
+## Group all the fhweb messages by url, calculating the number of times each was called and the total number of bytes
+    db.fhweb.group({
+      cond: {},
+      key: {url:true},
+      initial: {bytes: 0, count: 0},
+      reduce: function(doc, out) {
+        out.bytes += doc.bytes;
+        out.count++;
+      },
+      finalize: function(out) {}
+    })
+
+## Count all the askmoby url requests in fhweb:
+    db.fhweb.find({url: /http:\/\/script\.askmoby\.com.*/}).count()    
+
+## Show the url and date of each fhweb message
+    db.fhweb.find().limit(100).forEach( function(doc) { print(doc.url + " - " + new Date(doc._ts)); } );
+
+Note the use of 'limit'.
+Note the 'find' can reduce the query further.
+
+## Show all the URLs for fhweb for a specific year/month
+TODO - shoul be a way of using '$eq' directly in find() 
+
+    db.fhweb.find().limit(100).forEach(function(doc) { 
+      var d = new Date(doc._ts);  
+      print(doc.url + " - " + d.getFullYear() + ":" + d.getMonth() + ":" + d.getDay());
+    })
+
+# Show all the distinct urls in fhweb
+    db.fhweb.distinct("url")

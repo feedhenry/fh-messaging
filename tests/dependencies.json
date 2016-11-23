@@ -1,0 +1,18 @@
+{
+  "fh-messaging": {
+    "cmd": ["node", "fh-messaging/bin/fhmsgsrv.js", "tests/config/fh-messaging/conf.json"],
+    "wait_for": "stdout",
+    "wait_for_options": {
+      "string": "Started fh-messaging"
+    }
+  },
+
+  "fh-metrics": {
+    "cmd": ["node", "fh-metrics/bin/fhmetsrv.js", "tests/config/fh-metrics/conf.json"],
+    "wait_for": "stdout",
+    "wait_for_options": {
+      "string": "Started fh-metrics"
+    }
+  }
+
+}

@@ -1,0 +1,70 @@
+{
+  "mbaasid":"dev-mbaas-1",
+  "metrics": {
+    "port": 8813,
+    "logger": {
+      "name": "metrics",
+      "streams": [{
+        "type": "file",
+        "stream": "file",
+        "path": "/var/log/feedhenry/fh-metrics/fh-metrics.log",
+        "level": "info"
+      }, {
+        "type": "stream",
+        "src": true,
+        "level": "debug",
+        "stream": "process.stdout"
+      }]
+    },
+    "ignoreAPIKey": true,
+    "metricsAPIKey":"",
+    "ssl": {
+      "use_ssl": "false",
+      "key": "/etc/ssl/certs/feedhenry.net-private.key",
+      "cert": "/etc/ssl/certs/feedhenry.net-wildcard.pem",
+      "port": 8813
+    },
+    "database": {
+      "enabled": true,
+      "name": "fh-messaging",
+      "host": "localhost",
+      "port": 27017,
+      "auth": {
+        "user": "",
+        "pass": "",
+        "source": "fh-messaging"
+      }
+    },
+    "idFieldName": {
+      "default": "_id.appid",
+      "domainrequestsdest": "_id.domain",
+      "domaintransactionsdest": "_id.domain",
+      "domainrequestsgeo": "_id.domain",
+      "domaintransactionsgeo": "_id.domain",
+      "domainstartupsdest": "_id.domain",
+      "domaininstallsdest": "_id.domain",
+      "domainstartupsgeo": "_id.domain",
+      "domaininstallsgeo": "_id.domain",
+      "domainactivedevice": "_id.domain",
+      "domainactivedevicegeo": "_id.domain",
+      "appownernumcreates": "_id.domain",
+      "appownernumcreatesgeo": "_id.domain",
+      "usernumlogin": "_id.domain",
+      "usernumlogingeo": "_id.domain",
+      "usercreate": "_id.domain",
+      "usercreategeo": "_id.domain",
+      "userlogin": "_id.domain",
+      "userlogingeo": "_id.domain",
+      "appcreate": "_id.domain",
+      "appcreategeo": "_id.domain",
+      "appbuild": "_id.domain",
+      "appbuildgeo": "_id.domain",
+      "credentialsuploaded": "_id.domain",
+      "credentialsuploadedgeo": "_id.domain"
+    }
+  },
+  "retryConfig": {
+     "interval": 1000,
+     "limit": 10
+  }
+}

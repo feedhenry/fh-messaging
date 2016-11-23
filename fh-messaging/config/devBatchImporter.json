@@ -1,0 +1,12 @@
+{
+  "batchImporter": {
+    "logMessageApiPrefix": "https://localhost:8443/msg/",
+    "logMessageBatchSize": 50,
+    "backupFileLocation": "/Users/mmurphy/test",
+    "whitelist": {
+      "appinit": [  "Vk0WnFHtelrZME22dlmPp8lw", "chwRLTQJqfJ3RG8JsFIDO8gk" ]
+    }, 
+   "comment_backupFileLocation": "/mnt/is1/metrics/metrics_raw"
+  }
+}
+

@@ -1,0 +1,71 @@
+{
+  "name": "fh-messaging",
+  "description": "FeedHenry Messaging Server",
+  "version": "3.0.3-BUILD-NUMBER",
+  "repository": {
+    "type": "git",
+    "url": "dberesford@amz1svn1.feedhenry.com:/var/git/fh-messaging.git"
+  },
+  "author": "Damian Beresford",
+  "license": "Apache-2.0",
+  "main": "bin/fhmsgsrv.js",
+  "directories": {
+    "lib": "bin"
+  },
+  "scripts": {
+    "test": "grunt eslint fh:unit",
+    "postinstall": "scripts/postinstall.sh",
+    "start": "node bin/fhmsgsrv.js config/conf.json --master-only"
+  },
+  "engines": {
+    "node": "4.4"
+  },
+  "bin": {
+    "fh-messaging": "./bin/fhmsgsrv.js",
+    "fh-metrics-cli": "./bin/fh_metrics_cli.js",
+    "fh-metricsgen": "./bin/fh_metrics_gen_cli.js",
+    "fh-msg-getbackupfiles": "./lib/shell/getbackupfiles.sh",
+    "fh-msg-process-yesterday": "./lib/shell/processYesterdayCron.sh",
+    "fh-msg-process": "./lib/shell/process.sh",
+    "fh-msg-process-one": "./lib/shell/processone.sh",
+    "fh-msg-batch-import": "./bin/fh_msg_batch_importer.js"
+  },
+  "dependencies": {
+    "async": "0.2.6",
+    "body-parser": "1.14.1",
+    "express": "4.14.0",
+    "express-bunyan-logger": "1.3.1",
+    "fh-agenda": "0.9.0",
+    "fh-cluster": "0.3.0",
+    "fh-db": "1.2.4",
+    "fh-config": "1.0.3",
+    "fh-health": "0.3.1",
+    "fh-logger": "0.5.0",
+    "geoip": "0.6.1",
+    "lines": "1.0.1",
+    "moment": "2.16.0",
+    "mongodb": "2.1.18",
+    "netmask": "0.0.2",
+    "node-fs": "0.1.5",
+    "optimist": "0.3.7",
+    "request": "2.14.0",
+    "semver": "4.3.6",
+    "underscore": "1.4.4"
+  },
+  "devDependencies": {
+    "eslint": "^2.7.0",
+    "grunt": "1.0.1",
+    "grunt-fh-build": "1.0.2",
+    "istanbul": "0.4.5",
+    "mocha": "3.1.2",
+    "nconf": "0.6.7",
+    "proxyquire": "^1.7.3",
+    "randomstring": "^1.1.5",
+    "rewire": "^2.3.4",
+    "sinon": "^1.17.1",
+    "underscore.string": "2.3.1",
+    "whiskey": "^0.8.4"
+  },
+  "man": "./man/fh-messaging.1",
+  "preferGlobal": "true"
+}

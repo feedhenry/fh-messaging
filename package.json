@@ -1,0 +1,34 @@
+{
+  "name": "fh-messaging-acceptance-tests",
+  "version": "0.2.2",
+  "description": "Messaging acceptance test suite",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "moment": "^2.10.6"
+  },
+  "devDependencies": {
+    "whiskey": "^0.8.4",
+    "request": "*",
+    "underscore": "*",
+    "underscore.string": "*",
+    "fh-db": "*",
+    "moment": "*"
+  },
+  "engines": {
+    "node": ">=0.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fheng/fh-messaging.git"
+  },
+  "author": "FeedHenry",
+  "readmeFilename": "README.md",
+  "gitHead": "6fe441623206d09b706b1be3f167d3515b944bdb",
+  "license": "Apache-2.0"
+}
