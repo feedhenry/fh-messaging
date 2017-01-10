@@ -1,7 +1,7 @@
 {
   "name": "fh-metrics",
   "description": "FeedHenry Metrics Server",
-  "version": "3.0.5-BUILD-NUMBER",
+  "version": "3.0.6-BUILD-NUMBER",
   "repository": {
     "type": "git",
     "url": "git://github.com/feedhenry/fh-messaging.git"
@@ -17,7 +17,8 @@
   "scripts": {
     "test": "grunt eslint fh:unit",
     "postinstall": "scripts/postinstall.sh",
-    "start": "node bin/fhmetsrv.js config/conf.json --master-only"
+    "start": "node bin/fhmetsrv.js config/conf.json --master-only",
+    "version": "sed -i.bak \"s/sonar.projectVersion=.*/sonar.projectVersion=${npm_package_version}/\" sonar-project.properties && rm sonar-project.properties.bak && git add sonar-project.properties"
   },
   "bin": {
     "fh-metrics": "./bin/fhmetsrv.js"
@@ -28,8 +29,8 @@
     "express": "4.14.0",
     "express-bunyan-logger": "1.2.0",
     "fh-cluster": "0.3.0",
-    "fh-db": "1.2.4",
     "fh-config": "1.0.3",
+    "fh-db": "1.2.4",
     "fh-health": "0.3.1",
     "fh-logger": "0.5.0",
     "lines": "1.0.1",
@@ -59,4 +60,3 @@
     "node": "4.4"
   }
 }
-
