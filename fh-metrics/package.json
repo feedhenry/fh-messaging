@@ -28,8 +28,8 @@
     "express": "4.14.0",
     "express-bunyan-logger": "1.2.0",
     "fh-cluster": "0.3.0",
-    "fh-db": "1.2.4",
     "fh-config": "1.0.3",
+    "fh-db": "1.2.4",
     "fh-health": "0.3.1",
     "fh-logger": "0.5.0",
     "lines": "1.0.1",
@@ -37,7 +37,7 @@
     "mongodb": "2.1.18",
     "node-fs": "0.1.5",
     "optimist": "0.3.5",
-    "request": "2.14.0",
+    "request": "2.79.0",
     "underscore": "1.8.3"
   },
   "devDependencies": {
@@ -59,4 +59,3 @@
     "node": "4.4"
   }
 }
-
