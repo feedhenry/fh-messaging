@@ -326,7 +326,7 @@ exports.MessageServer = function(cfg, logr, cb) {
     self.app
             .use(require('express-bunyan-logger')({ logger: logger, parseUA: false }))
             .use(bodyParser.urlencoded({ extended: false }))
-            .use(bodyParser.json({}))
+            .use(bodyParser.json({'limit': cfg.messaging.maxRequestSize}))
             .use(helpers.fhApiKeyFilter(config.messaging.ignoreAPIKey, "x-feedhenry-msgapikey", config.messaging.msgAPIKey, logger))
             .use(helpers.fhAppKeyFilter(config.messaging.ignoreAPIKey, "x-fh-auth-app", self.appkeyValidator, logger))
             .use('/sys', sys)

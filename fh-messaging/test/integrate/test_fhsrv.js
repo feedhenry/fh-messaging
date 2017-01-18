@@ -656,6 +656,24 @@ exports.test_fhsrv_invalid_head_msg_one_exists_one_doesnt = function (test, asse
   });
 };
 
+exports.test_fhsrv_post_msg_too_large = function (test, assert) {
+  config.messaging.maxRequestSize = 500;
+
+  msgServer = new fhsrv.MessageServer(config, logger, function (err) {
+    assert.equal(err, null);
+
+    assert.response(msgServer.server, {
+      url: '/msg/log',
+      method: 'POST',
+      data: JSON.stringify(require('./fixtures/test_fhsrv_1KB_data')),
+      headers: helper.setDefaultHeaders(sendValidHeader, {})
+    }, function (res) {
+      assert.strictEqual(res.statusCode, 413, "expected statuscode 413 from /log, but got: " + res.statusCode);
+      test.finish();
+    });
+  });
+};
+
 //######################## INVALID TESTS END ########################
 
 // Test that posting rolled-up metrics for domain will lead into creating 2 records in collection
