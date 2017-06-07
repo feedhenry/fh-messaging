@@ -21,6 +21,13 @@ fhBuildNode {
                 cmd = 'fh:dist --only-bundle-deps'
             }
         }
-        archiveArtifacts "fh-messaging/dist/fh-messaging*.tar.gz, fh-metrics/dist/fh-metrics*.tar.gz"
+
+        def buildInfoFileName = 'build-info.json'
+        sh "cp fh-messaging/output/**/VERSION.txt ./fh-messaging-VERSION.txt"
+        buildInfoFileName = writeBuildInfo('fh-messaging', readFile("fh-messaging-VERSION.txt").trim())
+        sh "cp fh-metrics/output/**/VERSION.txt ./fh-metrics-VERSION.txt"
+        buildInfoFileName = writeBuildInfo('fh-metrics', readFile("fh-metrics-VERSION.txt").trim())
+
+        archiveArtifacts "fh-messaging/dist/fh-messaging*.tar.gz, fh-metrics/dist/fh-metrics*.tar.gz, ${buildInfoFileName}"
     }
 }
