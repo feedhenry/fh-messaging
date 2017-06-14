@@ -23,6 +23,10 @@ nconf.set("metrics:ssl:cert", path.resolve(__dirname, '../config/server.crt'));
 nconf.set("metrics:ignoreAPIKey", true);
 
 exports.getConfig = function () {
+  if(process.env.MONGODB_HOST) {
+    console.log(process.env.MONGODB_HOST);
+    nconf.set("metrics:database:host",process.env.MONGODB_HOST);
+  }
   return nconf;
 }
 

@@ -10,16 +10,67 @@ fhBuildNode {
         }
     }
 
-    stage('Build') {
+    stage('Lint') {
         dir('fh-messaging') {
-            gruntCmd {
-                cmd = 'fh:dist --only-bundle-deps'
-            }
+            sh "grunt eslint"
         }
         dir('fh-metrics') {
-            gruntCmd {
-                cmd = 'fh:dist --only-bundle-deps'
+            sh "grunt eslint"
+        }
+    }
+
+    withOpenshiftServices(['mongodb']) {
+        
+        stage('Unit Tests') {
+           dir('fh-messaging') {
+                sh "grunt fh-unit"
             }
+            dir('fh-metrics') {
+                sh "grunt fh-unit"
+            }
+        
+        }
+
+        stage('Acceptance Tests') {
+            dir('fh-messaging') {
+                sh "grunt fh-accept"
+            }
+            dir('fh-metrics') {
+                sh "grunt fh-accept"
+            }
+        
+        }     
+
+        stage('Integration Tests') {
+            dir('fh-messaging') {
+                sh "npm install -g"
+                sh "cp -R config /tmp/fh-messaging-config"
+                sh """
+                  cat /tmp/fh-messaging-config/dev.json | \
+                  jq '.database.host="${env.MONGODB_HOST}"' | \
+                  jq '.metrics.database.host="${env.MONGODB_HOST}"' | \
+                  jq '.metrics.metricsDir="/tmp/var/log/feedhenry/fh-messaging/metrics"' | \
+                  jq '.configDir="/tmp/fh-messaging-config/"' > \
+                  /tmp/fh-messaging-config/conf.json
+                """
+                sh "cp /tmp/fh-messaging-config/conf.json config/dev.json"
+                sh "mkdir -p /tmp/var/log/feedhenry/fh-messaging/metrics"
+                sh "grunt fh-integrate"
+            }
+            dir('fh-metrics') {
+                sh "grunt fh-integrate"
+            }
+ 
+        } 
+
+    }
+
+    stage('Build') {
+        dir('fh-messaging') {
+            sh 'grunt fh:dist --only-bundle-deps'
+        }
+        dir('fh-metrics') {
+            sh 'grunt fh:dist --only-bundle-deps'
         }
 
         def buildInfoFileName = 'build-info.json'
@@ -30,4 +81,5 @@ fhBuildNode {
 
         archiveArtifacts "fh-messaging/dist/fh-messaging*.tar.gz, fh-metrics/dist/fh-metrics*.tar.gz, ${buildInfoFileName}"
     }
+    
 }
