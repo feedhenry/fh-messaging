@@ -1,10 +1,10 @@
 {
   "name": "fh-messaging-acceptance-tests",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "dependencies": {
     "moment": {
       "version": "2.15.2",
-      "from": "moment@>=2.10.6 <3.0.0",
+      "from": "moment@>=2.15.2 <2.16.0",
       "resolved": "https://registry.npmjs.org/moment/-/moment-2.15.2.tgz"
     }
   }

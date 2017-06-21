@@ -1,7 +1,6 @@
 var fhmongodb = require('../lib/fhmongodb.js');
-var geoip = require('geoip');
-var Country = geoip.Country;
-var country = new Country('../vendor/GeoIP.dat');
+var geoip = require('geoip-lite');
+var countries = require('countries-list').countries;
 var db = new fhmongodb.Database();
 db.name = 'fh-messaging';
 function handleErr(err) {
@@ -26,7 +25,14 @@ db.on('tearUp', function (err) {
                 var ii, il;
                 console.log('entries: ' + items.length);
                 for (ii = 0, il = items.length; ii < il; ii += 1) {
-                  items[ii].country = country.lookupSync(items[ii].ipAddress);
+                  var geo = geoip.lookup(items[ii].ipAddress).country;
+                  items[ii].country = {
+                    continent_code: countries[geo.country].continent,
+                    country_code: geo.country,
+                    country_name: countries[geo.country].name,
+                    region: geo.region,
+                    city: geo.city
+                  };
                   collection.save(items[ii]);
                 }
                 console.log('finished');
