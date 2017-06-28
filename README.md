@@ -18,6 +18,41 @@ the scripts/commands for doing batch imports, and rollups for the metrics
 This is the metrics server which handles serving metrics data to millicore.  It has been seperated from fh-messaging,
 so that App Studio will not be affect by slowness or downtime of the messaging server
 
+## API endpoints
+
+### fh-messaging
+
+The express routes for `fh-messaging` are defined in `./fh-messaging/lib/fhsrv.js` as per:
+
+| Route| Request method | Purpose  |
+| :--- |:---:| :--- |
+| / | router.get | Returns all topics |
+| /:topic | router.get | Returns selected topic |
+| /:topic/:md5id | router.get | Returns a raw message based on its topic and unique hash |
+| /:topic/:md5id | router.head | Checks if the message with given hash exists |
+| /:topic | router.post | Creates a new topic |
+| /daily | router.post | Runs rollup process for the day (`rollupHandler.run`) |
+| /receive/:level | router.post | Stores the rolled-up data from mbaases (`rollupHandler.storeByLevel`) |
+| /info/ping | router.get | Returns service connectivity check result |
+| /info/version | router.get | Returns service version  |
+| /info/stats | router.get | Returns service stats |
+| /info/status | router.get | Returns service status |
+| /info/health | router.get | Returns health check details (`healthmonitor(config)`) |
+
+### fh-metrics
+
+The express routes for `fh-metrics` are defined in `./fh-metrics/lib/fhmetricssrv.js` as per:
+
+| Route| Request method | Purpose  |
+| :--- |:---:| :--- |
+| /:level | router.get | Returns the rolled-up data by level - apps, projects, domains, etc. (`metricsHandler.byLevel`) |
+| /:metric | router.post | Return metrics based on the query params in the request body |
+| /info/ping | router.get | Returns service connectivity check |
+| /info/version | router.get | Returns service version  |
+| /info/stats | router.get | Returns service stats |
+| /info/status | router.get | Returns service status |
+| /info/health | router.get | Returns health check details (`healthmonitor(config)`) |
+
 ## Tests
 
 ### Individual component testing
