@@ -18,6 +18,41 @@ the scripts/commands for doing batch imports, and rollups for the metrics
 This is the metrics server which handles serving metrics data to millicore.  It has been seperated from fh-messaging,
 so that App Studio will not be affect by slowness or downtime of the messaging server
 
+## API endpoints
+
+### fh-messaging
+
+The express routes for `fh-messaging` are defined in `./fh-messaging/lib/fhsrv.js` as per:
+
+| Route| HTTP method | Purpose  |
+| :--- |:---:| :--- |
+| / | GET | Returns all topics |
+| /:topic | GET | Returns selected topic |
+| /:topic/:md5id | GET | Returns a raw message based on its topic and unique hash |
+| /:topic/:md5id | HEAD | Checks if the message with given hash exists |
+| /:topic | POST | Creates a new topic |
+| /daily | POST | Runs rollup process for the day (`rollupHandler.run`) |
+| /receive/:level | POST | Stores the rolled-up data from mbaases (`rollupHandler.storeByLevel`) |
+| /info/ping | GET | Returns service connectivity check result |
+| /info/version | GET | Returns service version  |
+| /info/stats | GET | Returns service stats |
+| /info/status | GET | Returns service status |
+| /info/health | GET | Returns health check details (`healthmonitor(config)`) |
+
+### fh-metrics
+
+The express routes for `fh-metrics` are defined in `./fh-metrics/lib/fhmetricssrv.js` as per:
+
+| Route| HTTP method | Purpose  |
+| :--- |:---:| :--- |
+| /:level | GET | Returns the rolled-up data by level - apps, projects, domains, etc. (`metricsHandler.byLevel`) |
+| /:metric | POST | Return metrics based on the query params in the request body |
+| /info/ping | GET | Returns service connectivity check |
+| /info/version | GET | Returns service version  |
+| /info/stats | GET | Returns service stats |
+| /info/status | GET | Returns service status |
+| /info/health | GET | Returns health check details (`healthmonitor(config)`) |
+
 ## Tests
 
 ### Individual component testing
