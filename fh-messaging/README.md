@@ -95,3 +95,51 @@ Run a single test
     whiskey --real-time --report-timing --failfast --tests test.test_fhsrv.test_fhsrv_sys_info*
 
 This will run any tests in "test/test_fhsrv.js" beginning with "test_fhsrv_sys_info"
+
+# Developing on OpenShift
+For development purposes, we can build a CentOS based Docker image and watch for changes in the local filesystem which would be reflected in the running image.
+
+### Build the development image
+1. Generate the config file: `grunt fh-generate-dockerised-config`
+2. `docker build -t docker.io/my-Username/fh-messaging:dev -f Dockerfile.dev .`
+3. `oc edit dc fh-messaging`
+4. Replace the image with the tagged version above.
+
+### Hot Deployment
+
+The development image will allow you to sync local code changes to the running container without the need for rebuilding or redeploying the image.
+
+From the root of the `fh-messaging directory, run the following:
+```oc rsync --no-perms=true ./lib $(oc get po | grep fh-messaging | grep Running | awk '{print $1}'):/opt/app-root/src ```
+
+### Debugging with VS Code
+
+1. Open [Visual Studio Code](https://code.visualstudio.com/)
+2. `oc set probe dc fh-messaging --liveness --readiness --remove=true`
+3. `oc port-forward $(oc get po | grep fh-messaging | grep Running | awk '{print $1}') :5858`. - This will forward port 5858 from the running Pod to a local port. Note the port.
+4. Select the debug option and choose Node.js as the runtime.
+5. Set the `launch.json` file similar to the following, using the port obtained above via the port forward command:
+
+```json
+ {
+     "version": "0.2.0",
+     "configurations": [
+         {
+             "type": "node",
+             "request": "attach",
+             "name": "Attach to Remote",
+             "address": "localhost",
+             "port": <PORT>,
+             "localRoot": "${workspaceRoot}",
+             "remoteRoot": "/opt/app-root/src/"
+         },
+         {
+             "type": "node",
+             "request": "launch",
+             "name": "Launch Program",
+             "program": "${workspaceRoot}/bin/fhmsgsrv.js"
+         }
+     ]
+ }
+ ```
+6.Click `Attach to Remote`
