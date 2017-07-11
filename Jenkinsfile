@@ -1,6 +1,6 @@
 //https://github.com/feedhenry/fh-pipeline-library
 
-fhBuildNode {
+fhBuildNode([labels: ['nodejs6-ubuntu']]) {
     stage('Install Dependencies') {
         dir('fh-messaging') {
             npmInstall {}
