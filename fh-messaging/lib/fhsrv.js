@@ -15,7 +15,7 @@ var bodyParser = require('body-parser');
 var rolledUpMetrics = require('./handlers/rolled_up_metrics.js');
 var agendaScheduler = require('./agenda_scheduler.js');
 var healthmonitor = require('./handlers/healthmonitor.js');
-
+var RateLimiter = require('limiter').RateLimiter;
 
 // Message Server configuration, set in constructor.
 var config;
@@ -25,6 +25,9 @@ var messaging;
 
 // Private handle to our logging object, created in constructor
 var logger;
+
+// Rate limiter configuration, set in Message Server constructor.
+var limiter;
 
 var connections = {
   num: 0,
@@ -93,6 +96,34 @@ function handleHeadResponse(err, exists, res) {
     res.end("");
   }
   return;
+}
+
+function logMessage(req, topic, existingMessages, newMessages, timings_filtered, timings_start) {
+  messaging.logMessage(topic, newMessages, function(err, objects) {
+    var i;
+    if (err) {
+      logger.error("Error filtering after " + (timings_filtered - timings_start) + " milliseconds", err);
+      return;
+    }
+
+    var ids = [];
+    for (i in objects) {
+      if (objects.hasOwnProperty(i)) {
+        var msg = objects[i];
+        ids.push(msg.MD5);
+      }
+    }
+    var m = {};
+    m.newMessages = ids;
+    if (existingMessages.length > 0) {
+      m.existingMessages = existingMessages;
+    }
+    var timings_logged = Date.now();
+    logger.info("Added messages to topic: " + req.params.topic + " new: " + m.newMessages.length + " existing: " + existingMessages.length + ", filtered in " + (timings_filtered - timings_start) + " milliseconds" + ", logged in " + (timings_logged - timings_filtered) + " milliseconds");
+    connections.num -= 1;
+  });
+  var timings_funcLogged = Date.now();
+  logger.info("Call to logMessage() took: " + (timings_funcLogged - timings_filtered) + " milliseconds");
 }
 
 var msg = (function() {
@@ -175,7 +206,6 @@ var msg = (function() {
     });
   });
 
-
   router.post('/:topic', function(req, res) {
     connections.num += 1;
     connections.last = Date.now();
@@ -201,8 +231,6 @@ var msg = (function() {
       });
       return;
     }
-    //end request
-    res.json({"message":"accepted messages"});
 
     // first filter out any messages we already have
     messaging.filterExistingMessages(topic, messages, function(err, existingMessages, newMessages) {
@@ -211,32 +239,17 @@ var msg = (function() {
         logger.error("Error filtering after " + (timings_filtered - timings_start) + " milliseconds", err);
         return;
       }
-      if (newMessages.length > 0) {
-        messaging.logMessage(topic, newMessages, function(err, objects) {
-          var i;
-          if (err) {
-            logger.error("Error filtering after " + (timings_filtered - timings_start) + " milliseconds", err);
-            return;
-          }
 
-          var ids = [];
-          for (i in objects) {
-            if (objects.hasOwnProperty(i)) {
-              var msg = objects[i];
-              ids.push(msg.MD5);
-            }
+      if (newMessages.length > 0) {
+        limiter.removeTokens(newMessages.length, function(err, remainingRequests) {
+          remainingRequests = Math.floor(remainingRequests);
+          if (remainingRequests < 1) {
+            return res.status(429).send('Request Quota Exceeded - ' + config.maxRequests + '/day');
+          } else {
+            logMessage(req, topic, existingMessages, newMessages, timings_filtered, timings_start);
+            res.json({ "message": "accepted messages" });
           }
-          var m = {};
-          m.newMessages = ids;
-          if (existingMessages.length > 0) {
-            m.existingMessages = existingMessages;
-          }
-          var timings_logged = Date.now();
-          logger.info("Added messages to topic: " + req.params.topic + " new: " + m.newMessages.length + " existing: " + existingMessages.length + ", filtered in " + (timings_filtered - timings_start) + " milliseconds" + ", logged in " + (timings_logged - timings_filtered) + " milliseconds");
-          connections.num -= 1;
         });
-        var timings_funcLogged = Date.now();
-        logger.info("Call to logMessage() took: " + (timings_funcLogged - timings_filtered) + " milliseconds");
       } else {
         var m = {};
         if (existingMessages.length > 0) {
@@ -244,6 +257,7 @@ var msg = (function() {
         }
         logger.info("topic: " + req.params.topic + " existing: " + existingMessages.length + ", filtered in " + (timings_filtered - timings_start) + " milliseconds");
         connections.num -= 1;
+        res.json({ "message": "accepted messages" });
       }
     });
     var timings_funcFiltered = Date.now();
@@ -313,6 +327,7 @@ exports.MessageServer = function(cfg, logr, cb) {
   logger = logr;
   var self = this;
   this.metricsMan = new fhmm.MetricsManager(cfg, logr);
+  limiter = new RateLimiter(config.maxRequests, "day", true);
 
   this.app = express();
 
@@ -338,7 +353,7 @@ exports.MessageServer = function(cfg, logr, cb) {
 
     self.agenda = agendaScheduler( logr, cfg, database.db);
 
-    if ('function' === typeof cb) { // jshint ignore:line
+    if ('function' === typeof cb) {
       return cb();
     }
   });
