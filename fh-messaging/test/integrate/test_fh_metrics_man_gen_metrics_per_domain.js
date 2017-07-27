@@ -149,8 +149,8 @@ exports.test_generateMetricsData_per_domain_day1 = function (test, assert) {
           assert.equal('RAAOa7NplLpCgjcnLnataojf', data._id.appid);
           assert.equal('testa', data._id.domain);
           assert.equal(expected_metric_ts, data._id.ts);
-          assert.equal(3, data.value.iphone, 'incorrect iphone requests');
-          assert.equal(3, data.value.android, 'incorrect android requests');
+          assert.equal(3, data.value['RAAOa7NplLpCgjcnLnataojV'].iphone, 'incorrect iphone requests');
+          assert.equal(3, data.value['RAAOa7NplLpCgjcnLnataojV'].android, 'incorrect android requests');
           testCallback();
         });
 
@@ -241,8 +241,8 @@ exports.test_generateMetricsData_per_domain_day2 = function (test, assert) {
           assert.equal('RAAOa7NplLpCgjcnLnataojf', data._id.appid);
           assert.equal('testa', data._id.domain);
           assert.equal(expected_metric_ts, data._id.ts);
-          assert.equal(1, data.value.iphone, "Should be 1 iphone requests returned for apprequestsdest-day2, was: " + data.value.iphone);
-          assert.equal(2, data.value.android, "Should be 2 android requests returned for apprequestsdest-day2, was: " + data.value.android);
+          assert.equal(1, data.value['RAAOa7NplLpCgjcnLnataojV'].iphone, "Should be 1 iphone requests returned for apprequestsdest-day2, was: " + data.value.iphone);
+          assert.equal(2, data.value['RAAOa7NplLpCgjcnLnataojV'].android, "Should be 2 android requests returned for apprequestsdest-day2, was: " + data.value.android);
           testCallback();
         });
       }

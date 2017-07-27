@@ -13,7 +13,7 @@ var config = require(TEST_CONFIG);
 var mbaasMetricsUtil = require('../fixtures/mbaasMetrics');
 var fhconfig = require('fh-config');
 
-var PROJECTID = "testprojectid";
+var GUID = "testprojectid";
 var APPID = "testappid";
 var DOMAIN = "testing2";
 var TODAY  = helpers.daysAgo(0);
@@ -77,7 +77,7 @@ function insertFhactData(mongo,times,cb){
   async.each(times, function (t,done){
     mongo.collection(getFhactCollection(t), function (err, collection) {
       if (err)return done(err);
-      var rawActs = mbaasMetricsUtil.getRawFhactData(t, PROJECTID, APPID, DOMAIN, RAW_FH_ACT_IPHONE_TOTAL,RAW_FH_ACT_ANDROID_TOTAL);
+      var rawActs = mbaasMetricsUtil.getRawFhactData(t, GUID, APPID, DOMAIN, RAW_FH_ACT_IPHONE_TOTAL,RAW_FH_ACT_ANDROID_TOTAL);
       collection.insert(rawActs, function inserted(err, ok) {
         done(err);
       });
@@ -87,7 +87,7 @@ function insertFhactData(mongo,times,cb){
 
 function insertDecoupledMbaasData(mongo,times,cb){
   async.each(times, function (t,done) {
-    var mMetrics = mbaasMetricsUtil.getRawMbaasData(t, DOMAIN, APPID, MBAAS_IPHONE_TOTAL, MBAAS_ANDROID_TOTAL);
+    var mMetrics = mbaasMetricsUtil.getRawMbaasData(t, DOMAIN, GUID, APPID, MBAAS_IPHONE_TOTAL, MBAAS_ANDROID_TOTAL);
     var metrics = Object.keys(mMetrics);
     async.each(metrics, function (metric, cb) {
       console.log("INSERTING DATA ", metric, mMetrics[metric]);
@@ -127,9 +127,9 @@ function assertOnRollUp(assert, times,cb){
           collection.findOne({"_id.appid":"testappid","_id.ts": t,"_id.domain":DOMAIN},function (err, doc){
             assert.ok(!err, "did not expect an err finding apprequestsdest",err);
             console.log(doc);
-            assert.ok(doc.value.total === getTotal(),"total should have been equal to mbaas plus fhact total " + getTotal());
-            assert.ok(doc.value.iphone === getIphoneTotal(),"iphone total should have been equal to mbaas plus fhact total" + getIphoneTotal());
-            assert.ok(doc.value.android === getAndroidTotal(),"android total should have been equal to mbaas plus fhact total " + getAndroidTotal());
+            assert.ok(doc.value[GUID].total === getTotal(),"total should have been equal to mbaas plus fhact total " + getTotal());
+            assert.ok(doc.value[GUID].iphone === getIphoneTotal(),"iphone total should have been equal to mbaas plus fhact total" + getIphoneTotal());
+            assert.ok(doc.value[GUID].android === getAndroidTotal(),"android total should have been equal to mbaas plus fhact total " + getAndroidTotal());
             done();
           });
         },callback);
@@ -141,8 +141,9 @@ function assertOnRollUp(assert, times,cb){
         async.each(times, function verifyForTime(t,done){
           console.log("RUN ASSERT ON ROLLUP for apptransactionsdest ", t);
           collection.findOne({"_id.appid":"testappid","_id.ts": t,"_id.domain":DOMAIN},function (err, doc){
+            console.log(doc);
             assert.ok(!err, "did not expect an err finding apprequestsdest",err);
-            assert.ok(doc.value.iphone === MBAAS_IPHONE_TOTAL + NUM_RAW_TRANSACTIONS ,"iphone total should have been equal to mbaas plus fhact total" + getIphoneTotal() + " : " + doc.value.iphone);
+            assert.ok(doc.value.iphone === MBAAS_IPHONE_TOTAL + NUM_RAW_TRANSACTIONS ,"iphone total should have been equal to mbaas plus fhact total " + getIphoneTotal() + " : " + doc.value.iphone);
             assert.ok(doc.value.android === MBAAS_ANDROID_TOTAL + NUM_RAW_TRANSACTIONS,"android total should have been equal to mbaas plus fhact total " + getAndroidTotal());
             done();
           });
