@@ -215,9 +215,11 @@ module.exports = function(mongodb) {
       logger.info("Rollup options = " + JSON.stringify(options));
       collection.mapReduce(mReduceConf.map, mReduceConf.reduce, options, function(err,results) {
         var filteredErr = helpers.ignoreSomeErrs(err);
-        collection.find({}, function(err, docs) {
-          console.log('@@@@@doooocs', docs);
-          return callback(filteredErr, results);
+        collection.find({}, function(err, cursor) {
+          cursor.toArray(function(err, docs) {
+            console.log('@@@@@doooocs', docs);
+            return callback(filteredErr, results);
+          });
         });
       });
     }
