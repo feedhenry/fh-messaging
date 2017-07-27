@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     _unit_tests: [
       'test/handlers/test_receive_rolled_up_metrics.js',
       'test/jobs/test_metrics_rollup_job.js',
+      'test/jobs/test_metrics_prune_job.js',
       'test/unit/mongo_functions/test_metrics_domain.js',
       'test/unit/mongo_functions/test_metrics_geo.js',
       'test/unit/mongo_functions/test_metrics_geo_domain.js',
