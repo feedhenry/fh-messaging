@@ -303,6 +303,10 @@ MetricsManager.prototype.generateMetricsData = function(topic, date, callback) {
 
     r_active_device_geo = metricsMongoFunctions.metricsReduceActiveDeviceGeo;
 
+    var metrics_map_apprequestdest = metricsMongoFunctions.metricsMapAppRequestDest;
+
+    var metrics_reduce_apprequestdest = metricsMongoFunctions.metricsReduceAppRequestDest;
+
 
     // map each row from collection topic_YYYYMMDD, matching date query combined with queryOptions,using mappingFunction
     // reduce using reduceFunction and saving result to outputCollection
@@ -325,7 +329,7 @@ MetricsManager.prototype.generateMetricsData = function(topic, date, callback) {
       { topic: "appinit", queryOptions: {country: {$exists: true, $ne: null}}, outputCollection: 'domainstartupsgeo', mapFunction: mgeo_domain, reduceFunction: r},
 
       // report: apprequestsdest
-      { topic: "fhact", queryOptions: {}, outputCollection: 'apprequestsdest', mapFunction: m, reduceFunction: r},
+      { topic: "fhact", queryOptions: {}, outputCollection: 'apprequestsdest', mapFunction: metrics_map_apprequestdest, reduceFunction: metrics_reduce_apprequestdest},
       // report: apprequestsgeo
       { topic: "fhact", queryOptions: {country: {$exists: true, $ne: null}}, outputCollection: 'apprequestsgeo', mapFunction: mgeo, reduceFunction: r},
       // report: domainrequestsdest

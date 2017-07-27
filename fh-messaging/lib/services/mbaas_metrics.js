@@ -11,7 +11,7 @@ var mongoFunctions = require('../mongo_functions/index');
 var MAP_REDUCE={
   "apprequestsdest":{
     "map":mongoFunctions.mbaasAggregateApp,
-    "reduce":mongoFunctions.mbaasReduce,
+    "reduce":mongoFunctions.mbaasReduceAppRequestDest,
     queryOptions: {}
   },
   "apprequestsgeo":{
