@@ -210,13 +210,35 @@ module.exports = function(mongodb) {
           q[opt] = mReduceConf[opt];
         }
       }
-
-      var options = {query : q, out: {reduce: metric, db: dbName}, scope: {ts: from}};
-      logger.info("Rollup options = " + JSON.stringify(options));
-      collection.mapReduce(mReduceConf.map, mReduceConf.reduce, options, function(err,results) {
-        var filteredErr = helpers.ignoreSomeErrs(err);
-        return callback(filteredErr, results);
+      mongodb.collection('apprequestsdest', function(err, collection) {
+        collection.find({}, function(err, cursor) {
+          cursor.toArray(function(err, docs) {
+            console.log('@@@@@appprequestdest doooocs', docs);
+            var options = {query : q, out: {reduce: metric, db: dbName}, scope: {ts: from}};
+            logger.info("Rollup options = " + JSON.stringify(options));
+            collection.mapReduce(mReduceConf.map, mReduceConf.reduce, options, function(err,results) {
+              var filteredErr = helpers.ignoreSomeErrs(err);
+              collection.find({}, function(err, cursor) {
+                cursor.toArray(function(err, docs) {
+                  console.log('@@@@@mbaas_appprequestdest doooocs', docs);
+                  return callback(filteredErr, results);
+                });
+              });
+            });
+          });
+        });
       });
+      // var options = {query : q, out: {reduce: metric, db: dbName}, scope: {ts: from}};
+      // logger.info("Rollup options = " + JSON.stringify(options));
+      // collection.mapReduce(mReduceConf.map, mReduceConf.reduce, options, function(err,results) {
+      //   var filteredErr = helpers.ignoreSomeErrs(err);
+      //   collection.find({}, function(err, cursor) {
+      //     cursor.toArray(function(err, docs) {
+      //       console.log('@@@@@mbaas_appprequestdest doooocs', docs);
+      //       return callback(filteredErr, results);
+      //     });
+      //   });
+      // });
     }
 
   }
