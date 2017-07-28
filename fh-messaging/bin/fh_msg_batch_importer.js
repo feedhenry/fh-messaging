@@ -26,7 +26,7 @@ fs.exists = fs.exists || path.exists;
 fs.existsSync = fs.existsSync || path.existsSync;
 
 /* eslint-disable no-console */
-if (!path.existsSync(configFile)) {
+if (!fs.existsSync(configFile)) {
   console.log("Config file does not exist: " + configFile);
   process.exit(1);
 }
