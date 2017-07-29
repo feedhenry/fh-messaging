@@ -52,8 +52,14 @@ module.exports = {
 
     return testData;
   },
-  "getRawMbaasData": function(time,domain, appid, iphone, android){
+  "getRawMbaasData": function(time,domain, projectid, appid, iphone, android){
     var cuids = {};
+    var apprequestsdestvalue = {};
+    apprequestsdestvalue[projectid] = {
+      "total": iphone + android,
+      "iphone": iphone,
+      "android":android
+    };
     cuids[randomstring.generate()] = {iphone:1};
     cuids[randomstring.generate()] = {android:1};
      return {
@@ -65,11 +71,7 @@ module.exports = {
              "ts": time,
              "mbaas": "ppa4-mbaas-1"
            },
-           "value": {
-             "total": iphone + android,
-             "iphone": iphone,
-             "android":android
-           }
+           "value": apprequestsdestvalue
          }
        ],
        "apptransactionsdest":[
@@ -131,6 +133,7 @@ module.exports = {
 
 
 function totalMetrics(values){
+  console.log('@@@@@@valueees', values);
   var totals = {};
   _.each(values,function (vals){
     var props = Object.keys(vals);
@@ -158,6 +161,7 @@ function mbaasMeticss(metrics){
           return met;
         }
       });
+
       var values = _.map(metricsForApp, function (metric){
         return metric.value;
       });

@@ -127,7 +127,6 @@ function aggregateMetricsTypeForApp(metricType,assert,cb){
         collection.findOne({"_id.appid":app},callback);
       },
       function assertData(data,callback){
-        console.log(data, totals);
         assert.ok(_.isEqual(data.value,totals),"expected equality for " + metricType);
         callback();
       }
