@@ -1,4 +1,7 @@
-//https://github.com/feedhenry/fh-pipeline-library
+#!groovy
+
+// https://github.com/feedhenry/fh-pipeline-library
+@Library('fh-pipeline-library') _
 
 fhBuildNode {
     stage('Install Dependencies') {
@@ -20,7 +23,7 @@ fhBuildNode {
     }
 
     withOpenshiftServices(['mongodb']) {
-        
+
         stage('Unit Tests') {
            dir('fh-messaging') {
                 sh "grunt fh-unit"
@@ -28,7 +31,7 @@ fhBuildNode {
             dir('fh-metrics') {
                 sh "grunt fh-unit"
             }
-        
+
         }
 
         stage('Acceptance Tests') {
@@ -38,8 +41,8 @@ fhBuildNode {
             dir('fh-metrics') {
                 sh "grunt fh-accept"
             }
-        
-        }     
+
+        }
 
         stage('Integration Tests') {
             dir('fh-messaging') {
@@ -60,8 +63,8 @@ fhBuildNode {
             dir('fh-metrics') {
                 sh "grunt fh-integrate"
             }
- 
-        } 
+
+        }
 
     }
 
@@ -81,5 +84,5 @@ fhBuildNode {
 
         archiveArtifacts "fh-messaging/dist/fh-messaging*.tar.gz, fh-metrics/dist/fh-metrics*.tar.gz, ${buildInfoFileName}"
     }
-    
+
 }
