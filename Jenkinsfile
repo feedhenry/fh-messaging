@@ -85,4 +85,14 @@ fhBuildNode {
         archiveArtifacts "fh-messaging/dist/fh-messaging*.tar.gz, fh-metrics/dist/fh-metrics*.tar.gz, ${buildInfoFileName}"
     }
 
+
+    stage('Build Image') {
+        dir('fh-messaging') {
+            dockerBuildNodeComponent("fh-messaging")
+        }
+
+        dir('fh-metrics') {
+            dockerBuildNodeComponent("fh-metrics")
+        }
+    }
 }
