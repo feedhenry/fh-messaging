@@ -1,6 +1,6 @@
 {
   "name": "fh-metrics",
-  "version": "3.0.6-BUILD-NUMBER",
+  "version": "3.0.8-BUILD-NUMBER",
   "dependencies": {
     "async": {
       "version": "1.5.2",
