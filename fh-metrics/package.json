@@ -1,7 +1,7 @@
 {
   "name": "fh-metrics",
   "description": "FeedHenry Metrics Server",
-  "version": "3.0.7-BUILD-NUMBER",
+  "version": "3.1.0-BUILD-NUMBER",
   "repository": {
     "type": "git",
     "url": "git://github.com/feedhenry/fh-messaging.git"

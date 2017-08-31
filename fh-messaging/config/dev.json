@@ -13,6 +13,9 @@
           },
           "doImport":false
         }
+      },
+      "metrics_prune_job": {
+        "schedule": "10 2 * * 7"
       }
     }
   },
