@@ -112,7 +112,17 @@ var getMetric = function(metric, metric_id_field_name, query, callback) {
   logger.info('METRIC_collection: ' + metricCollection + ' ' + metric_id_field_name + ': ' + query._id);
 
   var findQuery = {'_id.ts': {$gte: startDate.getTime(), $lt: endDate.getTime()} };
-  findQuery[metric_id_field_name] = query._id;
+
+  // The _id field can be an array for service requests (containing all the ids of the
+  // associated services
+  if (query._id && Array.isArray(query._id)) {
+    findQuery[metric_id_field_name] = {
+      $in: query._id
+    };
+  } else {
+    findQuery[metric_id_field_name] = query._id;
+  }
+
   logger.info('METRIC_QUERY: ' + JSON.stringify(findQuery));
   messaging.database.find(metricCollection, findQuery, function(err, results) {
     if (err) {
