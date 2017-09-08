@@ -3,9 +3,9 @@
   "version": "0.2.2",
   "dependencies": {
     "moment": {
-      "version": "2.15.2",
+      "version": "2.18.1",
       "from": "moment@>=2.10.6 <3.0.0",
-      "resolved": "https://registry.npmjs.org/moment/-/moment-2.15.2.tgz"
+      "resolved": "https://registry.npmjs.org/moment/-/moment-2.18.1.tgz"
     }
   }
 }

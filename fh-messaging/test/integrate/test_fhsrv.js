@@ -674,6 +674,23 @@ exports.test_fhsrv_post_msg_too_large = function (test, assert) {
   });
 };
 
+exports.test_fhsrv_post_msg_topic_too_many_requests = function(test, assert) {
+  config.maxRequests = 0;
+  msgServer = new fhsrv.MessageServer(config, logger, function(err) {
+    assert.equal(err, null);
+
+    assert.response(msgServer.server, {
+      url: '/msg/log',
+      method: 'POST',
+      data: JSON.stringify(msgs2),
+      headers: helper.setDefaultHeaders(sendValidHeader, {})
+    }, function(res) {
+      assert.strictEqual(res.statusCode, 429, "expected statuscode 429 from /msg/tooManyRequests, but got: " + res.statusCode);
+      test.finish();
+    });
+  });
+};
+
 //######################## INVALID TESTS END ########################
 
 // Test that posting rolled-up metrics for domain will lead into creating 2 records in collection
