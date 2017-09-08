@@ -1,6 +1,6 @@
 {
   "name": "fh-messaging-acceptance-tests",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Messaging acceptance test suite",
   "main": "index.js",
   "directories": {
@@ -18,18 +18,18 @@
   },
   "author": "Feedhenry",
   "dependencies": {
-    "moment": "^2.10.6"
+    "moment": "~2.15.2"
   },
   "devDependencies": {
-    "whiskey": "^0.8.4",
-    "request": "*",
-    "underscore": "*",
-    "underscore.string": "*",
-    "fh-db": "*",
-    "moment": "*"
+    "whiskey": "~0.8.4",
+    "request": "~2.79.0",
+    "underscore": "~1.4.4",
+    "underscore.string": "~2.3.1",
+    "fh-db": "~1.2.4",
+    "moment": "~2.15.2"
   },
   "engines": {
-    "node": "4.4"
+    "node": "6.9"
   },
   "readmeFilename": "README.md",
   "gitHead": "6fe441623206d09b706b1be3f167d3515b944bdb",
