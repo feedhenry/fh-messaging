@@ -10,14 +10,14 @@
 var async = require('async');
 var crypto = require('crypto');
 var helpers = require('./helpers.js');
-var geoip = require('geoip');
-var City = geoip.City;
+var geoip = require('geoip-lite');
 var net = require('net');
 var Netmask = require('netmask').Netmask;
 var _ = require('underscore');
 var semver = require('semver');
+var countries = require('countries-list').countries;
 
-var filters, mLogger, country;
+var filters, mLogger;
 
 var netMasks;
 
@@ -27,10 +27,6 @@ var MD5 = function(str) {
 
 var generateID = function(message) {
   return MD5(JSON.stringify(message)) + "_" + helpers.getDatePart(message);
-};
-
-var do_geoip = function(ip, cb) {
-  return country.lookup(ip, cb);
 };
 
 var filterFuncs = {
@@ -55,18 +51,22 @@ var filterFuncs = {
     if (ip) {
       ip = getLastValidIP(ip);
       mLogger.debug('calling do_geoip: ' + JSON.stringify(ip));
-      do_geoip(ip, function(err, country) {
-        mLogger.debug("callback from geoip. Err: " + JSON.stringify(err) + ", country: " + JSON.stringify(country));
-        if (!err) {
-          filtered.country = country;
-        } else {
-          mLogger.warn("Error from geoip lookup: " + JSON.stringify(err) + ", continuing anyway with no country for ip: " + ip);
-        }
-        return callback(null, filtered);
-      });
-    } else {
-      return callback(null, filtered);
+      var geo = geoip.lookup(ip);
+      mLogger.debug("Result from geoip: " + JSON.stringify(geo));
+      if (!geo || !geo.country || !countries[geo.country]) {
+        mLogger.warn("Error from geoip lookup, continuing anyway with no country for ip: " + ip);
+      } else {
+        filtered.country = {
+          continent_code: countries[geo.country].continent,
+          country_code: geo.country,
+          country_name: countries[geo.country].name,
+          region: geo.region,
+          city: geo.city
+        };
+      }
     }
+
+    return callback(null, filtered);
   },
   AppFields: function(message, callback) {
     mLogger.debug('AppFields filter :: msg : ' + JSON.stringify(message));
@@ -176,7 +176,6 @@ var filterOneAsync = function(message, cb) {
 function FilterManager(config, logger) {
   filters = config.filters;
   mLogger = logger;
-  country = new City(config.geoip.dataFile);
   if (!netMasks) {
     buildNetMasks(config.ipFilter.excludes);
   }

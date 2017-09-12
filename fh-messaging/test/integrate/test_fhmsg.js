@@ -80,8 +80,6 @@ exports.test_geoip_EU_cities = function (test, assert) {
         assert.equal('EU', messages[0].country.continent_code);
         assert.equal('IE', messages[0].country.country_code);
         assert.equal('Ireland', messages[0].country.country_name);
-        assert.equal('27', messages[0].country.region);
-        assert.equal('Waterford', messages[0].country.city);
         test.finish();
       });
     });
@@ -106,8 +104,6 @@ exports.test_geoip_US_region = function (test, assert) {
         assert.equal('NA', messages[0].country.continent_code);
         assert.equal('US', messages[0].country.country_code);
         assert.equal('United States', messages[0].country.country_name);
-        assert.equal('CA', messages[0].country.region);
-        assert.equal('Mountain View', messages[0].country.city);
         test.finish();
       });
     });
