@@ -8,11 +8,20 @@ stage('Trust') {
 }
 
 fhBuildNode {
+
+    String fhMessagingVersion = null
+    String fhMetricsVersion = null
+    final String BUILD = env.BUILD_NUMBER
+    final String DOCKER_HUB_ORG = "feedhenry"
+    final String CHANGE_URL = env.CHANGE_URL
+
     stage('Install Dependencies') {
         dir('fh-messaging') {
+            fhMessagingVersion = getBaseVersionFromPackageJson()
             npmInstall {}
         }
         dir('fh-metrics') {
+            fhMetricsVersion = getBaseVersionFromPackageJson()
             npmInstall {}
         }
     }
@@ -29,7 +38,7 @@ fhBuildNode {
     withOpenshiftServices(['mongodb']) {
 
         stage('Unit Tests') {
-           dir('fh-messaging') {
+            dir('fh-messaging') {
                 sh "grunt fh-unit"
             }
             dir('fh-metrics') {
@@ -80,23 +89,50 @@ fhBuildNode {
             sh 'grunt fh:dist --only-bundle-deps'
         }
 
-        def buildInfoFileName = 'build-info.json'
-        sh "cp fh-messaging/output/**/VERSION.txt ./fh-messaging-VERSION.txt"
-        buildInfoFileName = writeBuildInfo('fh-messaging', readFile("fh-messaging-VERSION.txt").trim())
-        sh "cp fh-metrics/output/**/VERSION.txt ./fh-metrics-VERSION.txt"
-        buildInfoFileName = writeBuildInfo('fh-metrics', readFile("fh-metrics-VERSION.txt").trim())
+        String buildInfoFileName = 'build-info.json'
+        dir('dist') {
+            buildInfoFileName = writeBuildInfo('fh-messaging', fhMessagingVersion)
+            writeBuildInfo('fh-metrics', fhMetricsVersion)
+            sh "cp ../fh-messaging/dist/fh-messaging*.tar.gz ."
+            sh "cp ../fh-metrics/dist/fh-metrics*.tar.gz ."
+        }
 
-        archiveArtifacts "fh-messaging/dist/fh-messaging*.tar.gz, fh-metrics/dist/fh-metrics*.tar.gz, ${buildInfoFileName}"
+        archiveArtifacts "dist/fh-messaging*.tar.gz, dist/fh-metrics*.tar.gz, dist/${buildInfoFileName}"
+
+        s3PublishArtifacts([
+                bucket: "fh-wendy-builds/fh-messaging/${BUILD}",
+                directory: "./dist"
+        ])
+
+    }
+
+    stage('Platform Update') {
+        final Map updateParams = [
+                componentName: 'fh-messaging',
+                componentVersion: fhMessagingVersion,
+                componentBuild: BUILD,
+                changeUrl: CHANGE_URL
+        ]
+        fhcapComponentUpdate(updateParams)
+        fhOpenshiftTemplatesComponentUpdate(updateParams)
+        fhCoreOpenshiftTemplatesComponentUpdate(updateParams)
+
+        updateParams.componentName = 'fh-metrics'
+        updateParams.componentVersion = fhMetricsVersion
+
+        fhcapComponentUpdate(updateParams)
+        fhOpenshiftTemplatesComponentUpdate(updateParams)
+        fhCoreOpenshiftTemplatesComponentUpdate(updateParams)
     }
 
 
     stage('Build Image') {
         dir('fh-messaging') {
-            dockerBuildNodeComponent("fh-messaging")
+            dockerBuildNodeComponent('fh-messaging', DOCKER_HUB_ORG)
         }
 
         dir('fh-metrics') {
-            dockerBuildNodeComponent("fh-metrics")
+            dockerBuildNodeComponent('fh-metrics', DOCKER_HUB_ORG)
         }
     }
 }
