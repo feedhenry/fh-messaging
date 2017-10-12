@@ -21,7 +21,7 @@ module.exports = {
     });
     return totalMetrics(totalsPerMbaas);
   },
-  "getRawFhactData": function (time,projectid,appid, domain, iphone,android){
+  "getRawFhactData": function (time,guid,appid, domain, iphone,android){
 
     var testData = [];
 
@@ -32,7 +32,7 @@ module.exports = {
     for(var i=0; i < iphone; i++){
       var timeStr = ""+time+Math.random();
       var hash = crypto.createHash('md5').update(timeStr).digest("hex");
-      testData.push(    { "_cl": "development", "_ho": "fh", "_mn": 30, "_ts": time, "app_version": "21", "guid": projectid, "appkey": "57ed22d3e4b1a729705472b0cdda9ec25b608b53", "domain": domain, "bytes": 98, "cached": false, "cuid": IPHONE_CUIDS[i%IPHONE_CUIDS.length], "destination": "iphone", "function": "getConfig", "appid": appid, "ipAddress": "192.168.28.35", "scriptEngine": "node", "sdk_version": "FH_HYBRID_SDK/1.0.5", "status": 200, "time": 206, "MD5": hash,
+      testData.push(    { "_cl": "development", "_ho": "fh", "_mn": 30, "_ts": time, "app_version": "21", "guid": guid, "appkey": "57ed22d3e4b1a729705472b0cdda9ec25b608b53", "domain": domain, "bytes": 98, "cached": false, "cuid": IPHONE_CUIDS[i%IPHONE_CUIDS.length], "destination": "iphone", "function": "getConfig", "appid": appid, "ipAddress": "192.168.28.35", "scriptEngine": "node", "sdk_version": "FH_HYBRID_SDK/1.0.5", "status": 200, "time": 206, "MD5": hash,
         "country" : {
         "country_name" : "Ireland",
         "country_code" : "IE",
@@ -42,7 +42,7 @@ module.exports = {
     for(var j=0; j < android; j++){
       var timeStr = ""+time+Math.random();
       var hash = crypto.createHash('md5').update(timeStr).digest("hex");
-      testData.push(    { "_cl": "development", "_ho": "fh", "_mn": 30, "_ts": time, "app_version": "21", "guid": projectid, "appkey": "57ed22d3e4b1a729705472b0cdda9ec25b608b53", "domain": domain, "bytes": 98, "cached": false, "cuid": ANDROID_CUIDS[j%ANDROID_CUIDS.length], "destination": "android", "function": "getConfig", "appid": appid, "ipAddress": "192.168.28.35", "scriptEngine": "node", "sdk_version": "FH_HYBRID_SDK/1.0.5", "status": 200, "time": 206, "MD5": hash,
+      testData.push(    { "_cl": "development", "_ho": "fh", "_mn": 30, "_ts": time, "app_version": "21", "guid": guid, "appkey": "57ed22d3e4b1a729705472b0cdda9ec25b608b53", "domain": domain, "bytes": 98, "cached": false, "cuid": ANDROID_CUIDS[j%ANDROID_CUIDS.length], "destination": "android", "function": "getConfig", "appid": appid, "ipAddress": "192.168.28.35", "scriptEngine": "node", "sdk_version": "FH_HYBRID_SDK/1.0.5", "status": 200, "time": 206, "MD5": hash,
         "country" : {
           "country_name" : "Ireland",
           "country_code" : "IE",
@@ -52,8 +52,14 @@ module.exports = {
 
     return testData;
   },
-  "getRawMbaasData": function(time,domain, appid, iphone, android){
+  "getRawMbaasData": function(time,domain, guid, appid, iphone, android){
     var cuids = {};
+    var apprequestsdestvalue = {};
+    apprequestsdestvalue[guid] = {
+      "total": iphone + android,
+      "iphone": iphone,
+      "android":android
+    };
     cuids[randomstring.generate()] = {iphone:1};
     cuids[randomstring.generate()] = {android:1};
      return {
@@ -65,11 +71,7 @@ module.exports = {
              "ts": time,
              "mbaas": "ppa4-mbaas-1"
            },
-           "value": {
-             "total": iphone + android,
-             "iphone": iphone,
-             "android":android
-           }
+           "value": apprequestsdestvalue
          }
        ],
        "apptransactionsdest":[
@@ -158,6 +160,7 @@ function mbaasMeticss(metrics){
           return met;
         }
       });
+
       var values = _.map(metricsForApp, function (metric){
         return metric.value;
       });
