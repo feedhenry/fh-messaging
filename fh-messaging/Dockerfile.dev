@@ -23,6 +23,11 @@ RUN scl enable rh-nodejs4 "npm install -g nodemon" && \
     cp lib/shell/processone.sh bin/fh-msg-process \
     && cp bin/fh_metrics_cli.js bin/fh-metrics-cli
 
+USER root
+RUN  mkdir -p /root/licenses/rhmap/ && \
+     cp licenses/* /root/licenses/rhmap/
+USER default
+
 ENV FHDEV true
 
 CMD ["bash", "-c", "nodemon --debug=5858 ./bin/fhmsgsrv.js ./config/conf.json --master-only"]
