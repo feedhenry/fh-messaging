@@ -114,25 +114,9 @@ fhBuildNode([labels: ['nodejs6-ubuntu']]) {
                 changeUrl: CHANGE_URL
         ]
         fhcapComponentUpdate(updateParams)
-        fhOpenshiftTemplatesComponentUpdate(updateParams)
-        fhCoreOpenshiftTemplatesComponentUpdate(updateParams)
 
         updateParams.componentName = 'fh-metrics'
         updateParams.componentVersion = fhMetricsVersion
-
         fhcapComponentUpdate(updateParams)
-        fhOpenshiftTemplatesComponentUpdate(updateParams)
-        fhCoreOpenshiftTemplatesComponentUpdate(updateParams)
-    }
-
-
-    stage('Build Image') {
-        dir('fh-messaging') {
-            dockerBuildNodeComponent('fh-messaging', DOCKER_HUB_ORG)
-        }
-
-        dir('fh-metrics') {
-            dockerBuildNodeComponent('fh-metrics', DOCKER_HUB_ORG)
-        }
     }
 }
