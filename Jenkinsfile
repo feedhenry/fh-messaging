@@ -114,12 +114,9 @@ fhBuildNode([labels: ['nodejs6-ubuntu']]) {
                 changeUrl: CHANGE_URL
         ]
         fhcapComponentUpdate(updateParams)
-        fhOpenshiftTemplatesComponentUpdate(updateParams)
 
         updateParams.componentName = 'fh-metrics'
         updateParams.componentVersion = fhMetricsVersion
-
         fhcapComponentUpdate(updateParams)
-        fhOpenshiftTemplatesComponentUpdate(updateParams)
     }
 }
