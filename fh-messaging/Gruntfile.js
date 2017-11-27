@@ -51,8 +51,8 @@ module.exports = function(grunt) {
       'test/integrate/test_fh_metrics_man_gen_metrics_per_domain.js',
       'test/integrate/test_fh_metrics_man_logs.js'
     ],
-    _unit_args: '--real-time --report-timing --failfast --timeout 50000 --tests "<%= _unit_tests.join(\' \') %>"',
-    _integrate_args: '--real-time --report-timing --failfast --timeout 50000 --tests "<%= _functional_tests.join(\' \') %>"',
+    _unit_args: '--real-time --report-timing --failfast --timeout 60000 --tests "<%= _unit_tests.join(\' \') %>"',
+    _integrate_args: '--real-time --report-timing --failfast --timeout 60000 --tests "<%= _functional_tests.join(\' \') %>"',
 
     // These are the properties that grunt-fh-build will use
     unit: '<%= _test_runner %> <%= _unit_args %>',
