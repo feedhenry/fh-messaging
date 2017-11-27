@@ -99,10 +99,6 @@ fhBuildNode([labels: ['nodejs6-ubuntu']]) {
 
         archiveArtifacts "dist/fh-messaging*.tar.gz, dist/fh-metrics*.tar.gz, dist/${buildInfoFileName}"
 
-        s3PublishArtifacts([
-                bucket: "fh-wendy-builds/fh-messaging/${BUILD}",
-                directory: "./dist"
-        ])
 
     }
 
@@ -113,14 +109,12 @@ fhBuildNode([labels: ['nodejs6-ubuntu']]) {
                 componentBuild: BUILD,
                 changeUrl: CHANGE_URL
         ]
-        fhcapComponentUpdate(updateParams)
         fhOpenshiftTemplatesComponentUpdate(updateParams)
         fhCoreOpenshiftTemplatesComponentUpdate(updateParams)
 
         updateParams.componentName = 'fh-metrics'
         updateParams.componentVersion = fhMetricsVersion
 
-        fhcapComponentUpdate(updateParams)
         fhOpenshiftTemplatesComponentUpdate(updateParams)
         fhCoreOpenshiftTemplatesComponentUpdate(updateParams)
     }
