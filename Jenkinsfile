@@ -7,7 +7,7 @@ stage('Trust') {
     enforceTrustedApproval()
 }
 
-fhBuildNode([labels: ['nodejs6-ubuntu']]) {
+fhBuildNode([labels: ['nodejs6']]) {
 
     String fhMessagingVersion = null
     String fhMetricsVersion = null
