@@ -18,11 +18,11 @@
   },
   "author": "Feedhenry",
   "dependencies": {
-    "moment": "~2.15.2"
+    "moment": "~2.19.3"
   },
   "devDependencies": {
     "whiskey": "~0.8.4",
-    "request": "~2.79.0",
+    "request": "~2.83.0",
     "underscore": "~1.4.4",
     "underscore.string": "~2.3.1",
     "fh-db": "~1.2.4",
