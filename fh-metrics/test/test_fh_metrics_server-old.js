@@ -97,7 +97,7 @@ function handleErr(err) {
   }
 }
 
-// test data calls
+// [db-inspect] test data calls
 function createTestData(config, collection, testData, callback) {
   var db = new fhdb.Database();
   db.name = config.metrics.database.name;

@@ -81,7 +81,7 @@ module.exports = function metrics(cfg,logger, db) {
   //private function
   function getMetric(collection,from,to ,cb) {
     //query mongo
-    //get metrics from the system db
+    // [db-inspect] get metrics from the system db
     var findQuery = {'_id.ts': {$gte: from, $lt: to}};
     db.find(collection,findQuery,cb);
   }
