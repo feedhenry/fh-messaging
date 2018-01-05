@@ -112,6 +112,7 @@ AppKeyValidator.prototype.validateWithHost = function(host, appGuid, appKey, cal
 };
 
 AppKeyValidator.prototype.cacheResult = function(keyInfo, valid, cb) {
+  //db update
   this.db.update(APPKEY_CACHE_COLLECTION, {_id:keyInfo}, {_id:keyInfo, valid: valid}, true, function(err) {
     return cb(err);
   });
@@ -122,6 +123,7 @@ AppKeyValidator.prototype.getCachedValidationResult = function(keyInfo, cb) {
   var query = {
     _id: keyInfo
   };
+  //db read
   this.db.find(APPKEY_CACHE_COLLECTION, query, function(err, results) {
     var incache = false;
     var valid = false;
