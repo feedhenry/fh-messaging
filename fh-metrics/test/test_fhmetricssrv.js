@@ -89,6 +89,7 @@ exports.setUp = function (test, assert) {
   });
 };
 
+// test db teardown
 exports.tearDown = function (test, assert) {
   logger.info('tearDown');
   if (metricsServer && metricsServer.messaging.database != null) {

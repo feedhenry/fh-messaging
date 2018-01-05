@@ -22,6 +22,7 @@ nconf.set("metrics:ssl:key", path.resolve(__dirname, '../config/server.key'));
 nconf.set("metrics:ssl:cert", path.resolve(__dirname, '../config/server.crt'));
 nconf.set("metrics:ignoreAPIKey", true);
 
+// sets the db in config
 exports.getConfig = function () {
   if(process.env.MONGODB_HOST) {
     console.log(process.env.MONGODB_HOST);
@@ -30,6 +31,7 @@ exports.getConfig = function () {
   return nconf;
 }
 
+// db connection through fh-db here
 exports.openDB = function (dbconfig, callback) {
   var db = new fhdb.Database(dbconfig.host, dbconfig.port, dbconfig.options);
   db.name = dbconfig.name;
@@ -46,6 +48,7 @@ exports.openDB = function (dbconfig, callback) {
   db.tearUp();
 }
 
+// another test
 exports.testDataSetUp = function (dbconfig, testData, callback) {
   this.openDB(dbconfig, function (err, db) {
     if (err) {
@@ -83,6 +86,7 @@ exports.testDataSetUp = function (dbconfig, testData, callback) {
   });
 }
 
+// db test tear down
 exports.testDataTearDown = function (dbconfig, callback) {
   if (dbconfig.name == "fh-messaging" || dbconfig.name == "fh-metrics") {
     console.log("You probably don't really want to drop " + dbconfig.name + " : Skipping");
