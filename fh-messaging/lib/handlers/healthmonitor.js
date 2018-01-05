@@ -9,6 +9,8 @@ function result(id, status, error) {
   };
 }
 
+// Health check to local Mongo which we can assume is system
+// Uses env vars which should remain the same
 function checkMongoDB(callback) {
   var mc = require('mongodb').MongoClient;
   mc.connect(fhconfig.mongoConnectionString('database'), function(err, db) {

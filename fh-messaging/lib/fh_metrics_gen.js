@@ -112,6 +112,8 @@ MetricsGenerator.prototype.generateMetricsData = function(topic, date, callback)
     var endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
     var dateQuery = self.constructDateQuery(startDate, endDate);
 
+    // below is a list of potential collections which exist in the fh-reporting db,
+    //can we assume these are all system, they appear to be??
     var report_list = [
       {
         comment: 'user creates, per domain, per day',

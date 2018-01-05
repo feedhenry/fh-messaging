@@ -99,6 +99,7 @@ module.exports = function(mongodb) {
       if (ids.length > 0) {
         logger.debug(ids);
         logger.debug(LOG_TAG + " removing metric " + metricType);
+        // db delete
         collection.remove({_id: {"$in": ids}}, eachCallback);
       } else {
         eachCallback();
@@ -119,6 +120,7 @@ module.exports = function(mongodb) {
       if (metrics[metricType] instanceof Array && metrics[metricType].length > 0) {
         logger.debug(metrics[metricType]);
         logger.debug(LOG_TAG + " inserting metric " + metricType + " into " + getSingleMbaasMetricsCollectionName(metricType));
+        // db create
         collection.insert(metrics[metricType], eachCallback);
       } else {
         eachCallback();
@@ -136,6 +138,7 @@ module.exports = function(mongodb) {
             if (err) {
               return cb(err);
             }
+            // db update
             coll.update({"_id":"from"},{$set:{"from":date}},{"upsert":true,"w":1}, callback);
           });
         } else {
@@ -150,6 +153,7 @@ module.exports = function(mongodb) {
       if (err) {
         return cb(err);
       }
+      // db read
       coll.findOne({"_id":"from"}, cb);
     });
   }
@@ -159,6 +163,7 @@ module.exports = function(mongodb) {
       if (err) {
         return cb(err);
       }
+      // db remove
       coll.remove({}, cb);
     });
   }
@@ -213,6 +218,7 @@ module.exports = function(mongodb) {
 
       var options = {query : q, out: {reduce: metric, db: dbName}, scope: {ts: from}};
       logger.info("Rollup options = " + JSON.stringify(options));
+      // db mapReduce
       collection.mapReduce(mReduceConf.map, mReduceConf.reduce, options, function(err,results) {
         var filteredErr = helpers.ignoreSomeErrs(err);
         return callback(filteredErr, results);

@@ -57,6 +57,7 @@ module.exports = function(db) {
           async.apply(getCollection),
           function completed(collection, callback) {
             auditJob = updateAudit("complete");
+            // db create, sys data?
             collection.save(auditJob, function(err) {
               return callback(err, auditJob);
             });
@@ -68,6 +69,7 @@ module.exports = function(db) {
           function completed(collection, callback) {
             auditJob = updateAudit("error", "unexpected error");
             auditJob.err = (err instanceof Error) ? err.message : JSON.stringify(err);
+            // db create, sys data?
             collection.save(auditJob, function(err) {
               return callback(err, auditJob);
             });
@@ -90,6 +92,7 @@ module.exports = function(db) {
         async.apply(getCollection),
         function create(collection, callback) {
           var audit = newAuditLog(jobName, jobStarted, rollupDate);
+          // db create
           collection.insert(audit, function(err) {
             var decoratedAudit = jobDecorator(audit);
             return callback(err, decoratedAudit);
@@ -102,6 +105,7 @@ module.exports = function(db) {
       async.waterfall([
         async.apply(getCollection),
         function findById(collection, callback) {
+          // db read
           collection.findOne({"_id": id}, callback);
         }
       ], cb);
@@ -110,6 +114,7 @@ module.exports = function(db) {
       async.waterfall([
         async.apply(getCollection),
         function findByDate(collection, callback) {
+          // db read
           collection.find({
             "rollupFor": {
               "$gte": from,
