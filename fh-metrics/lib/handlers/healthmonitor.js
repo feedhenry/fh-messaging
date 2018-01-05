@@ -9,6 +9,7 @@ function result(id, status, error) {
   };
 }
 
+// [db-inspect] connection to system db here
 function checkMongoDB(callback) {
   var mc = require('mongodb').MongoClient;
   mc.connect(fhconfig.mongoConnectionString('metrics.database'), function(err, db) {

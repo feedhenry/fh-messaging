@@ -7,6 +7,7 @@ var EventEmitter = require('events').EventEmitter;
 //
 // Main Messaging constructor function..
 //
+// [db-inspect] initial construction of the db using config
 function Messaging(cfg, logr, callback) {
   this.config = cfg.metrics;
   this.logger = logr;
