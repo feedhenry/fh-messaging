@@ -1,7 +1,7 @@
 var placeholders = {
   "messaging.port": 8080,
   "database.name": "{{env.MONGODB_FHREPORTING_DATABASE}}",
-  "database.host": "mongodb-1",
+  "database.host": "{{fallback(env.MONGODB_SERVICE_NAME, 'mongodb-1')}}",
   "database.auth.user": "{{env.MONGODB_FHREPORTING_USER}}",
   "database.auth.pass": "{{env.MONGODB_FHREPORTING_PASSWORD}}",
   "database.auth.source": "{{env.MONGODB_FHREPORTING_DATABASE}}",
