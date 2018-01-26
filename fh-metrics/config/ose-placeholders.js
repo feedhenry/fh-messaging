@@ -1,7 +1,7 @@
 var placeholders = {
   "metrics.port": 8080,
   "metrics.database.name": "{{env.MONGODB_FHREPORTING_DATABASE}}",
-  "metrics.database.host": "mongodb-1",
+  "metrics.database.host": "{{fallback(env.MONGODB_SERVICE_NAME, 'mongodb-1')}}",
   "metrics.database.auth.user": "{{env.MONGODB_FHREPORTING_USER}}",
   "metrics.database.auth.pass": "{{env.MONGODB_FHREPORTING_PASSWORD}}",
   "metrics.database.auth.source": "{{env.MONGODB_FHREPORTING_DATABASE}}",
