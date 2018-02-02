@@ -1,6 +1,6 @@
 {
   "name": "fh-messaging-acceptance-tests",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "dependencies": {
     "moment": {
       "version": "2.19.4",

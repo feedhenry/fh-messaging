@@ -1,6 +1,6 @@
 {
   "name": "fh-messaging-acceptance-tests",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Messaging acceptance test suite",
   "main": "index.js",
   "directories": {
