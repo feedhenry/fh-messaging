@@ -1,11 +1,11 @@
 {
   "name": "fh-messaging-acceptance-tests",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "dependencies": {
     "moment": {
-      "version": "2.18.1",
-      "from": "moment@>=2.10.6 <3.0.0",
-      "resolved": "https://registry.npmjs.org/moment/-/moment-2.18.1.tgz"
+      "version": "2.19.4",
+      "from": "moment@>=2.19.3 <2.20.0",
+      "resolved": "https://registry.npmjs.org/moment/-/moment-2.19.4.tgz"
     }
   }
 }
