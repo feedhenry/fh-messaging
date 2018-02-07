@@ -35,7 +35,7 @@ fhBuildNode([labels: ['nodejs6-ubuntu']]) {
         }
     }
 
-    withOpenshiftServices(['mongodb']) {
+    withOpenshiftServices(['mongodb32']) {
 
         stage('Unit Tests') {
             dir('fh-messaging') {
