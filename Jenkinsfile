@@ -35,7 +35,7 @@ fhBuildNode {
         }
     }
 
-    withOpenshiftServices(['mongodb']) {
+    withOpenshiftServices(['mongodb32']) {
 
         stage('Unit Tests') {
             dir('fh-messaging') {
