@@ -197,24 +197,63 @@ MetricsManager.prototype.deleteMetricsData = function(topic, date, callback) {
   // if multiple message managers pointed at the same config are running at the
   // same time
   var msgConfig = JSON.parse(JSON.stringify(self.mConfig));
-  var collectionName = topic + "_" + helpers.toYYYYMMDD(date);
-
   messageMan = new fhmsg.Messaging(msgConfig, self.mLogger);
   self.messageMans.push(messageMan);
+
   messageMan.database.on('tearUp', function() {
-    messageMan.database.db.dropCollection(collectionName, callback);
-    //remove all the data that is older than the x number of days from the intermediate tables
-    async.each(['transactionsdesttemp', 'transactionsgeotemp'], function(tempCol, cb) {
-      var daysToCalculate = self.mConfig.agenda.jobs.metrics_rollup_job.daysToKeep || 31;
-      var beforeDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - daysToCalculate);
-      var query = {"_id.ts":{$lt: beforeDate.getTime()}};
-      messageMan.database.db.collection(tempCol, function(err, collection) {
+    // Pruning for fhact
+    var daysToCalculate = self.mConfig.agenda.jobs.metrics_rollup_job.daysToKeep || 31;
+    var pruning_date = new Date().getTime() - ( daysToCalculate * 24 * 60 * 60 * 1000 );
+    var prune_collection_names = [];
+
+    // Retrieve the list of collections from the database
+    messageMan.database.db.listCollections({name: RegExp("^" + topic + "_")}).toArray( function(err, items) {
+      if (err) {
+        self.mLogger.error("listCollections error: " + err);
+        callback(err);
+      }
+
+      // Generate list of prunable collections
+      for (var i=0; i < items.length; i++) {
+        self.mLogger.debug('Found ' + topic + ' collection: ' + items[i].name);
+        // construct Date from the "fhact_YYYYMMDD" name
+        var topic_date_string = items[i].name.substring((topic + '_').length, items[i].name.length);
+        // helper method to construct date
+        var collection_date = helpers.toDateFromYYYYMMDD(topic_date_string);
+        // check if this date is older than the number of days to prune, append to list if so
+        self.mLogger.debug('Check collection_date.getTime(): ' + collection_date.getTime());
+        self.mLogger.debug('Check pruning_date: ' + pruning_date);
+        self.mLogger.debug('Check if date is prunable ' + (collection_date.getTime() < parseInt(pruning_date)));
+        if ( collection_date.getTime() < parseInt(pruning_date) ) {
+          self.mLogger.debug('Marking collection for pruning: ' + items[i].name);
+          prune_collection_names.push(items[i].name);
+        }
+      }
+
+      // iterate over each collection for pruning, and drop the collection
+      async.each(prune_collection_names, function(col_name, cb) {
         if (err) {
           return cb(err);
         }
-        collection.remove(query, cb);
+        self.mLogger.debug('Dropping collection: ' + col_name);
+        messageMan.database.db.dropCollection(col_name, cb);
+      }, function() {
+        //remove all the data that is older than the x number of days from the intermediate tables
+        async.each(['transactionsdesttemp', 'transactionsgeotemp'], function(tempCol, cb) {
+          var daysToCalculate = self.mConfig.agenda.jobs.metrics_rollup_job.daysToKeep || 31;
+          var beforeDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - daysToCalculate);
+          var query = {"_id.ts":{$lt: beforeDate.getTime()}};
+          messageMan.database.db.collection(tempCol, function(err, collection) {
+            if (err) {
+              return cb(err);
+            }
+            collection.remove(query, cb);
+          });
+        }, callback(err, messageMan.database.db));
       });
-    }, callback);
+
+    }); // listCollections
+
   });
 };
 
