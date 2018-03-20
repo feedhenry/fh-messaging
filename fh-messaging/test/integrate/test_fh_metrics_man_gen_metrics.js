@@ -34,6 +34,18 @@ exports.setUp = function (test, assert) {
   logger.info("Test metrics dir :: " + config.metrics.metricsDir);
 
   testData = {
+    "fhact_20110101":{
+      "index": "MD5",
+      "data": [
+        {}
+      ]
+    },
+    "fhact_30000101":{
+      "index": "MD5",
+      "data": [
+        {}
+      ]
+    },
     "appinit_20110612": {
       "index": 'MD5',
       "data": [
@@ -119,6 +131,39 @@ exports.tearDown = function (test, assert) {
     test.finish();
   });
 };
+
+
+exports.test_deleteMetricsData = function (test, assert) {
+  var topic = 'fhact'; // get the list of topics that this is generally run for
+  logger.info("Running deleteMetricsData for: " + topic);
+  var date = new Date();
+  var results = [{name: 'appinit_20110612', options: {}},{name: 'appinit_20110613', options: {}},{name: 'fhact_30000101', options: {}}];
+
+  metricsMan = new fhmm.MetricsManager(config, logger);
+
+  metricsMan.deleteMetricsData(topic, date, function (err, metricsMan_db) {
+    assert.ok(!err);
+
+    async.series([
+      function (testCallback){
+        metricsMan_db.listCollections({}).toArray(function(err, items){
+          if(err){
+            logger.error(err);
+          }
+
+          assert.ok(!err);
+          assert.equal(3, items.length);
+          assert.equal(results.toString(), items.toString());
+
+          testCallback();
+        });
+      }
+    ], function (err, res) {
+      test.finish();
+    });
+  });
+}
+
 
 exports.test_generateMetricsData_day1 = function (test, assert) {
   var topic = 'appinit';
