@@ -97,7 +97,7 @@ fhBuildNode([labels: ['nodejs6-ubuntu']]) {
             sh "cp ../fh-metrics/dist/fh-metrics*.tar.gz ."
         }
 
-        archiveArtifacts "dist/fh-messaging*.tar.gz, dist/fh-metrics*.tar.gz, dist/${buildInfoFileName}"
+        archiveArtifacts "dist/${buildInfoFileName}"
 
         s3PublishArtifacts([
                 bucket: "fh-wendy-builds/fh-messaging/${BUILD}",
