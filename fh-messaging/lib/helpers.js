@@ -222,6 +222,21 @@ function daysAgoFromDate(date, daysAgo) {
   };
 }
 
+function toDateFromYYYYMMDD( date_name ) {
+  // get the date from the YYYYMMDD
+  // get the YYYY substring
+  var year = date_name.substring(0,4);
+  // get the MM substring
+  // month is 0 indexed
+  var month = date_name.substring(4,6) - 1;
+  // get the DD substring
+  var day = date_name.substring(6, date_name.length);
+
+  // construct and return a Date
+  return new Date(year, month, day);
+}
+
+exports.toDateFromYYYYMMDD = toDateFromYYYYMMDD;
 exports.constructCollectionName = constructCollectionName;
 exports.isWhiteListed = isWhiteListed;
 exports.getCollectionNameFromTopicAndId = getCollectionNameFromTopicAndId;
