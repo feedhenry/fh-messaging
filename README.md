@@ -5,7 +5,6 @@
 This contains the 2 messaging components
 
 * fh-messaging
-
 * fh-metrics
 
 ## fh-messaging
