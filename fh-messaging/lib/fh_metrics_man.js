@@ -207,7 +207,7 @@ MetricsManager.prototype.deleteMetricsData = function(topic, date, callback) {
     var prune_collection_names = [];
 
     // Retrieve the list of collections from the database
-    messageMan.database.db.listCollections({name: RegExp("^" + topic + "_")}).toArray( function(err, items) {
+    messageMan.database.db.listCollections({name: { '$regex': topic + '_'}}).toArray( function(err, items) {
       if (err) {
         self.mLogger.error("listCollections error: " + err);
         callback(err);
