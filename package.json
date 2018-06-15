@@ -1,6 +1,6 @@
 {
   "name": "fh-messaging-acceptance-tests",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Messaging acceptance test suite",
   "main": "index.js",
   "directories": {
@@ -21,12 +21,12 @@
     "moment": "2.22.2"
   },
   "devDependencies": {
-    "whiskey": "~0.8.4",
+    "fh-db": "3.3.1",
+    "moment": "~2.22.2",
     "request": "~2.83.0",
     "underscore": "~1.4.4",
     "underscore.string": "~2.3.1",
-    "fh-db": "~1.2.4",
-    "moment": "~2.22.2"
+    "whiskey": "~0.8.4"
   },
   "engines": {
     "node": "6.9"

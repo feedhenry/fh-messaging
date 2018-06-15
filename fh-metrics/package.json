@@ -1,7 +1,7 @@
 {
   "name": "fh-metrics",
   "description": "FeedHenry Metrics Server",
-  "version": "3.2.0-BUILD-NUMBER",
+  "version": "3.2.1-BUILD-NUMBER",
   "repository": {
     "type": "git",
     "url": "git://github.com/feedhenry/fh-messaging.git"
@@ -32,7 +32,7 @@
     "express-bunyan-logger": "1.2.0",
     "fh-cluster": "0.3.0",
     "fh-config": "1.0.3",
-    "fh-db": "1.2.4",
+    "fh-db": "3.3.1",
     "fh-health": "0.3.2",
     "fh-logger": "0.5.0",
     "lines": "1.0.1",
