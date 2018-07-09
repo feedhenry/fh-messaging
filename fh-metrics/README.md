@@ -119,15 +119,16 @@ For development purposes, we can build a CentOS based Docker image and watch for
 ### Build the development image
 1. Generate the config file: `grunt fh-generate-dockerised-config`
 2. `docker build -t docker.io/my-Username/fh-metrics:dev -f Dockerfile.dev .`
-3. `oc edit dc fh-metrics`
-4. Replace the image with the tagged version above.
+3. `docker push docker.io/my-Username/fh-metrics:dev`
+4. `oc edit dc fh-metrics`
+5. Replace the image with the tagged version above.
 
 ### Hot Deployment
 
 The development image will allow you to sync local code changes to the running container without the need for rebuilding or redeploying the image.
 
 From the root of the `fh-metrics directory, run the following:
-```oc rsync --no-perms=true ./lib $(oc get po | grep fh-metrics | grep Running | awk '{print $1}'):/opt/app-root/src ```
+```oc rsync --watch --no-perms=true ./lib $(oc get po | grep fh-metrics | grep Running | awk '{print $1}'):/opt/app-root/src ```
 
 ### Debugging with VS Code
 
