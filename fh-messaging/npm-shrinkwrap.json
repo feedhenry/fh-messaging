@@ -1,6 +1,6 @@
 {
   "name": "fh-messaging",
-  "version": "3.3.1-BUILD-NUMBER",
+  "version": "3.3.2-BUILD-NUMBER",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
