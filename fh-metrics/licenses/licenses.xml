@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <licenseSummary>
     <project>fh-metrics</project>
-    <version>3.2.0-BUILD-NUMBER</version>
+    <version>3.2.1-BUILD-NUMBER</version>
     <license>Apache-2.0</license>
     <dependencies>
         <dependency>
@@ -106,7 +106,7 @@
         </dependency>
         <dependency>
             <packageName>async-listener</packageName>
-            <version>0.6.0</version>
+            <version>0.6.9</version>
             <licenses>
                 <license>
                     <name>BSD 2-clause "Simplified" License</name>
@@ -355,8 +355,8 @@
             </licenses>
         </dependency>
         <dependency>
-            <packageName>bunyan</packageName>
-            <version>1.8.1</version>
+            <packageName>bunyan-lite</packageName>
+            <version>1.0.1</version>
             <licenses>
                 <license>
                     <name>MIT License</name>
@@ -516,7 +516,7 @@
         </dependency>
         <dependency>
             <packageName>continuation-local-storage</packageName>
-            <version>3.1.7</version>
+            <version>3.2.1</version>
             <licenses>
                 <license>
                     <name>BSD 2-clause "Simplified" License</name>
@@ -706,16 +706,6 @@
         </dependency>
         <dependency>
             <packageName>dtrace-provider</packageName>
-            <version>0.6.0</version>
-            <licenses>
-                <license>
-                    <name>UNKNOWN</name>
-                    <url>UNKNOWN</url>
-                </license>
-            </licenses>
-        </dependency>
-        <dependency>
-            <packageName>dtrace-provider</packageName>
             <version>0.7.1</version>
             <licenses>
                 <license>
@@ -766,7 +756,7 @@
         </dependency>
         <dependency>
             <packageName>emitter-listener</packageName>
-            <version>1.0.1</version>
+            <version>1.1.1</version>
             <licenses>
                 <license>
                     <name>BSD 2-clause "Simplified" License</name>
@@ -1026,7 +1016,7 @@
         </dependency>
         <dependency>
             <packageName>fh-logger</packageName>
-            <version>0.5.0</version>
+            <version>1.0.0</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -1036,7 +1026,7 @@
         </dependency>
         <dependency>
             <packageName>fh-metrics</packageName>
-            <version>3.2.0-BUILD-NUMBER</version>
+            <version>3.2.1-BUILD-NUMBER</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -1716,16 +1706,6 @@
         </dependency>
         <dependency>
             <packageName>moment</packageName>
-            <version>2.13.0</version>
-            <licenses>
-                <license>
-                    <name>MIT License</name>
-                    <url>http://www.opensource.org/licenses/MIT</url>
-                </license>
-            </licenses>
-        </dependency>
-        <dependency>
-            <packageName>moment</packageName>
             <version>2.15.2</version>
             <licenses>
                 <license>
@@ -1786,16 +1766,6 @@
         </dependency>
         <dependency>
             <packageName>nan</packageName>
-            <version>2.3.5</version>
-            <licenses>
-                <license>
-                    <name>MIT License</name>
-                    <url>http://www.opensource.org/licenses/MIT</url>
-                </license>
-            </licenses>
-        </dependency>
-        <dependency>
-            <packageName>nan</packageName>
             <version>2.4.0</version>
             <licenses>
                 <license>
@@ -1837,16 +1807,6 @@
         <dependency>
             <packageName>node-fs</packageName>
             <version>0.1.5</version>
-            <licenses>
-                <license>
-                    <name>MIT License</name>
-                    <url>http://www.opensource.org/licenses/MIT</url>
-                </license>
-            </licenses>
-        </dependency>
-        <dependency>
-            <packageName>node-uuid</packageName>
-            <version>1.4.7</version>
             <licenses>
                 <license>
                     <name>MIT License</name>
@@ -2446,11 +2406,11 @@
         </dependency>
         <dependency>
             <packageName>shimmer</packageName>
-            <version>1.0.0</version>
+            <version>1.2.0</version>
             <licenses>
                 <license>
-                    <name>UNKNOWN</name>
-                    <url>UNKNOWN</url>
+                    <name>BSD 2-clause "Simplified" License</name>
+                    <url>http://www.opensource.org/licenses/BSD-2-Clause</url>
                 </license>
             </licenses>
         </dependency>
