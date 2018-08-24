@@ -1,7 +1,7 @@
 {
   "name": "fh-messaging",
   "description": "FeedHenry Messaging Server",
-  "version": "3.3.12BUILD-NUMBER",
+  "version": "3.3.13-BUILD-NUMBER",
   "repository": {
     "type": "git",
     "url": "git://github.com/feedhenry/fh-messaging.git"
