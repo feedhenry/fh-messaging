@@ -3,17 +3,20 @@
 // https://github.com/feedhenry/fh-pipeline-library
 @Library('fh-pipeline-library') _
 
+String fhMessagingVersion = ""
+String fhMetricsVersion = ""
+String DOCKER_HUB_ORG = "feedhenry"
+String BUILD = ""
+String CHANGE_URL = ""
+
 stage('Trust') {
     enforceTrustedApproval()
 }
 
 fhBuildNode([labels: ['nodejs6']]) {
 
-    String fhMessagingVersion = null
-    String fhMetricsVersion = null
-    final String BUILD = env.BUILD_NUMBER
-    final String DOCKER_HUB_ORG = "feedhenry"
-    final String CHANGE_URL = env.CHANGE_URL
+    BUILD = env.BUILD_NUMBER
+    CHANGE_URL = env.CHANGE_URL
 
     stage('Install Dependencies') {
         dir('fh-messaging') {
@@ -84,9 +87,13 @@ fhBuildNode([labels: ['nodejs6']]) {
     stage('Build') {
         dir('fh-messaging') {
             sh 'grunt fh:dist --only-bundle-deps'
+            sh "cp ./dist/fh-*x64.tar.gz docker/"
+            stash name: "fh-messaging-dockerdir", includes: "docker/"
         }
         dir('fh-metrics') {
             sh 'grunt fh:dist --only-bundle-deps'
+            sh "cp ./dist/fh-*x64.tar.gz docker/"
+            stash name: "fh-metrics-dockerdir", includes: "docker/"
         }
 
         String buildInfoFileName = 'build-info.json'
@@ -127,6 +134,49 @@ fhBuildNode([labels: ['nodejs6']]) {
 
         dir('fh-metrics') {
             dockerBuildNodeComponent('fh-metrics', DOCKER_HUB_ORG)
+        }
+    }
+}
+
+
+node('master') {
+    stage('Build Image') {
+        sh 'mkdir fh-messaging && mkdir fh-metrics'
+
+        dir('fh-messaging') {
+            unstash "fh-messaging-dockerdir"
+
+            String tag = "${fhMessagingVersion}-${BUILD}"
+            Map params = [
+                fromDir: "./docker",
+                buildConfigName: "fh-messaging",
+                imageRepoSecret: "dockerhub",
+                outputImage: "docker.io/${DOCKER_HUB_ORG}/fh-messaging:${tag}"
+            ]
+
+            try {
+                buildWithDockerStrategy params
+            } finally {
+                sh "rm -rf ./docker/"
+            }
+        }
+
+        dir('fh-metrics') {
+            unstash "fh-metrics-dockerdir"
+
+            String tag = "${fhMetricsVersion}-${BUILD}"
+            Map params = [
+                fromDir: "./docker",
+                buildConfigName: "fh-metrics",
+                imageRepoSecret: "dockerhub",
+                outputImage: "docker.io/${DOCKER_HUB_ORG}/fh-metrics:${tag}"
+            ]
+
+            try {
+                buildWithDockerStrategy params
+            } finally {
+                sh "rm -rf ./docker/"
+            }
         }
     }
 }
