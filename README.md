@@ -1,8 +1,4 @@
-# fh-messaging(1) -- The FeedHenry Message Server
-
-# Deprecation Notice
-This repository has been deprecated for the 4.X since the Analytics feature will be not so long present in the future versions. If you have any questions, please get in touch with the collaborators.
-
+#fh-messaging(1) -- The FeedHenry Message Server
 
 ## DESCRIPTION
 
